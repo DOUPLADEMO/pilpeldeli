@@ -729,7 +729,7 @@ IMG_SEED['099009']=[I('pk-099009.png',1),...IMG_SEED['099009']];
 [['003014','jpg'],['003507','png'],['003549','png'],['003554','jpg'],['003564','jpg'],['004035','jpg'],['005000','jpg'],['005549','jpg'],['006090','jpg'],['007599','jpg']].forEach(([c,e])=>{IMG_SEED[c]=[I('pk-'+c+'.'+e),...(IMG_SEED[c]||[])];});
 const MOOD_SRC={'h-oil':'img/ill/m-oil.jpg','h-brix':'img/ill/m-pizza.jpg','h-green':'img/ill/m-green.jpg','h-kal':'img/ill/m-kalamata.jpg',CF82:'img/ill/m-flour.jpg'};
 const MOOD={'h-oil':['m-oil.jpg'],'h-green':['m-green.jpg','m-green2.jpg'],'h-kal':['m-kalamata.jpg'],'h-brix':['m-pizza.jpg'],CF82:['m-flour.jpg']};
-Object.keys(MOOD).forEach(k=>{IMG_SEED[k]=[...MOOD[k].map(f=>I(f,null)),...(IMG_SEED[k]||[])].slice(0,3);});
+Object.keys(MOOD).forEach(k=>{IMG_SEED[k]=[...(IMG_SEED[k]||[]),...MOOD[k].map(f=>I('ill/'+f,null))].slice(0,3);});
 const imgKey=p=>{
   const U=(p.name_en+' '+p.pack_en).toUpperCase().replace(/\s/g,'');
   if(p.section==='buf'){if(/BURRATA/.test(U))return'b-burrata';if(/SMOKED/.test(U))return'b-smoked';if(/5X50/.test(U))return'b-m5';if(/125G/.test(U))return'b-m125';if(/250G/.test(U))return'b-m250';if(/500G/.test(U))return'b-m500';return null;}
@@ -851,7 +851,7 @@ class Component extends DCLogic {
   state={mode:'digital',tab:'products',lang:'hu',w:1200,h:900,themes:{digital:'dark',print:'light'},pageIdx:0,dir:'fwd',products:SEED,settings:SEED_SET,stories:SEED_STORIES,place:SEED_PLACE,selId:'',filt:{sec:'',cat:''},imp:null,lite:false,selStory:'michael',toast:''};
   componentDidMount(){
     try{const q=new URLSearchParams(location.search).get('view');if(q==='print'||q==='admin')this.setState({mode:q});
-      const raw=localStorage.getItem('pilpel-deli-v11');if(raw){const d=JSON.parse(raw);this.setState({products:d.products||SEED,settings:{...SEED_SET,...d.settings},stories:{...SEED_STORIES,...(d.stories||{})},place:d.place?(JSON.stringify(d.place).includes('pilpel')?d.place:{...d.place,cover:['pilpel',...(d.place.cover||[])]}):SEED_PLACE,lang:d.lang||'hu'});}}catch(e){}
+      const raw=localStorage.getItem('pilpel-deli-v12');if(raw){const d=JSON.parse(raw);this.setState({products:d.products||SEED,settings:{...SEED_SET,...d.settings},stories:{...SEED_STORIES,...(d.stories||{})},place:d.place?(JSON.stringify(d.place).includes('pilpel')?d.place:{...d.place,cover:['pilpel',...(d.place.cover||[])]}):SEED_PLACE,lang:d.lang||'hu'});}}catch(e){}
     this.onScr=()=>{const v=window.scrollY>300;if(v!==this.state.scrolled)this.setState({scrolled:v});};window.addEventListener('scroll',this.onScr,{passive:true});
     this.onRes=()=>this.setState({w:window.innerWidth,h:window.innerHeight});this.onRes();window.addEventListener('resize',this.onRes);this.onKey=e=>{if(this.state.mode==='print'&&(e.key==='ArrowRight'||e.key==='ArrowLeft'))this.nav(e.key==='ArrowRight'?1:-1);};window.addEventListener('keydown',this.onKey);
   }
@@ -860,7 +860,7 @@ class Component extends DCLogic {
     const s=this.state,pv=this._pv;this._pv={products:s.products,settings:s.settings,stories:s.stories,place:s.place,lang:s.lang};
     if(!pv||(pv.products===s.products&&pv.settings===s.settings&&pv.stories===s.stories&&pv.place===s.place&&pv.lang===s.lang))return;
     clearTimeout(this._sv);this._sv=setTimeout(()=>{
-      const put=d=>localStorage.setItem('pilpel-deli-v11',JSON.stringify(d));
+      const put=d=>localStorage.setItem('pilpel-deli-v12',JSON.stringify(d));
       try{put({products:s.products,settings:s.settings,stories:s.stories,place:s.place,lang:s.lang});}
       catch(e){try{put({products:s.products.map(p=>({...p,imgs:[]})),settings:{...s.settings,logoDark:'',logoLight:''},stories:s.stories,place:s.place,lang:s.lang});this.say('Képek nem mentődtek (tárhely)');}catch(e2){}}
     },400);
