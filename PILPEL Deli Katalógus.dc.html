@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Mulish:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Orelega+One&display=swap">
+<style>
+body{margin:0}
+a{color:hsl(90 25% 54%)}a:hover{color:hsl(40 20% 92%)}
+@keyframes rise{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
+@page{size:A4;margin:0}
+@keyframes flipFwd{from{transform:rotateY(-82deg);opacity:.15}to{transform:none;opacity:1}}@keyframes flipBack{from{transform:rotateY(82deg);opacity:.15}to{transform:none;opacity:1}}@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@media print{.np,.spine{display:none!important}.pg{margin:0!important;box-shadow:none!important;display:flex!important;animation:none!important}.pgw{zoom:1!important;padding:0!important;background:none!important;display:block!important;perspective:none!important}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+input:focus,select:focus,textarea:focus{outline:1px solid hsl(90 25% 42%)}
+</style>
+</helmet>
+<div style="{{ rootStyle }}">
+
+<div class="np" style="position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:10px 20px;background:hsl(30 10% 10% / .94);backdrop-filter:blur(10px);border-bottom:1px solid hsl(30 10% 20%);color:hsl(40 20% 92%)">
+  <div role="img" aria-label="PILPEL" style="{{ lg.top }}"></div>
+  <div style="display:flex;gap:4px;padding:3px;border:1px solid hsl(30 10% 20%);border-radius:999px;background:hsl(30 10% 14%)">
+    <sc-for list="{{ modes }}" as="m" hint-placeholder-count="3"><button data-id="{{ m.id }}" onClick="{{ setMode }}" style="{{ m.style }}">{{ m.label }}</button></sc-for>
+  </div>
+  <div style="display:flex;gap:4px;padding:3px;border:1px solid hsl(30 10% 20%);border-radius:999px;background:hsl(30 10% 14%)">
+    <sc-for list="{{ langs }}" as="g" hint-placeholder-count="2"><button data-id="{{ g.id }}" onClick="{{ setLang }}" style="{{ g.style }}">{{ g.label }}</button></sc-for>
+  </div>
+  <sc-if value="{{ hasTheme }}" hint-placeholder-val="{{ true }}"><div style="display:flex;gap:4px;padding:3px;border:1px solid hsl(30 10% 20%);border-radius:999px;background:hsl(30 10% 14%)">
+    <sc-for list="{{ themeBtns }}" as="g" hint-placeholder-count="2"><button data-id="{{ g.id }}" onClick="{{ setTheme }}" style="{{ g.style }}">{{ g.label }}</button></sc-for>
+  </div></sc-if>
+</div>
+
+<sc-if value="{{ isDigital }}" hint-placeholder-val="{{ true }}">
+<div style="{{ digitalWrap }}">
+<sc-for list="{{ feed }}" as="b" hint-placeholder-count="2">
+<section id="{{ b.anchor }}" style="{{ b.wrap }}">
+
+  <sc-if value="{{ b.hasBanner }}" hint-placeholder-val="{{ false }}"><div style="{{ b.bannerS }}"></div></sc-if>
+  <sc-if value="{{ b.hasHead }}" hint-placeholder-val="{{ false }}">
+    <div style="display:flex;flex-direction:column;gap:14px;max-width:760px">
+      <div style="{{ K.eyebrow }}">{{ b.eyebrow }}</div>
+      <h2 style="{{ K.h2 }}"><sc-for list="{{ b.titleParts }}" as="tp" hint-placeholder-count="2"><span style="{{ tp.s }}">{{ tp.t }}</span></sc-for></h2>
+      <sc-if value="{{ b.hasSub }}"><p style="margin:0;color:hsl(var(--muted-foreground));font-size:16px;max-width:620px;text-wrap:pretty">{{ b.sub }}</p></sc-if>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ b.isCover }}" hint-placeholder-val="{{ false }}">
+    <div style="position:relative;padding-top:8px">
+      <div style="{{ b.coverBg }}"></div>
+      <div style="{{ b.coverCard }}">
+        <div style="flex:1 1 300px;min-width:0;display:flex;flex-direction:column;gap:14px;align-items:flex-start">
+          <div role="img" aria-label="PILPEL DELI" style="{{ lg.big }}"></div>
+          <div style="{{ K.mono }};font-size:13px;color:hsl(var(--muted-foreground));letter-spacing:.04em">{{ b.sub }}</div>
+        </div>
+        <div style="flex:1 1 300px;display:flex;flex-direction:column;gap:14px;align-items:flex-start">
+          <span style="display:inline-flex;padding:7px 16px;border-radius:999px;background:hsl(var(--primary));color:hsl(30 10% 10%);{{ K.eyebrowBase }}">{{ L.forChefs }}</span>
+          <span style="{{ K.h2 }};font-size:clamp(30px,4vw,52px);color:hsl(var(--primary));font-style:italic">{{ b.tagline }}</span>
+        </div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:{{ b.pillCols }};gap:16px">
+      <sc-for list="{{ b.pillars }}" as="pl" hint-placeholder-count="3">
+        <div style="background:hsl(var(--card));border:1px solid hsl(var(--border));border-radius:20px;padding:24px;display:flex;flex-direction:column;gap:14px;transition:box-shadow .3s" style-hover="box-shadow:0 8px 30px -10px rgba(255,255,255,0.05)">
+          <div style="width:44px;height:44px;border-radius:12px;background:hsl(var(--olive-soft));color:hsl(var(--primary));display:flex;align-items:center;justify-content:center">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <sc-if value="{{ pl.globe }}"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path></sc-if>
+              <sc-if value="{{ pl.clock }}"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></sc-if>
+              <sc-if value="{{ pl.shield }}"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path><path d="m9 12 2 2 4-4"></path></sc-if>
+            </svg>
+          </div>
+          <div style="{{ K.h3 }}">{{ pl.title }}</div>
+          <div style="color:hsl(var(--muted-foreground));font-size:15px;text-wrap:pretty">{{ pl.text }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ b.isHl }}" hint-placeholder-val="{{ false }}">
+    <div style="display:grid;grid-template-columns:repeat({{ b.cols }},minmax(0,1fr));gap:16px;align-items:stretch">
+      <sc-for list="{{ b.items }}" as="it" hint-placeholder-count="4">
+        <div style="{{ it.box }}" style-hover="box-shadow:0 8px 30px -10px rgba(255,255,255,0.05)">
+          <sc-if value="{{ it.isXL }}" hint-placeholder-val="{{ false }}">
+            <div style="display:grid;grid-template-columns:{{ b.heroCols }};min-height:340px">
+              <div style="{{ it.heroLeft }}">
+                <div style="{{ K.eyebrow }}">{{ it.eyebrow }}</div>
+                <div style="{{ K.h2 }}">{{ it.name }}</div>
+                <div style="{{ K.mono }};font-size:13px;color:hsl(var(--muted-foreground))">{{ it.pack }}</div>
+                <p style="margin:0;white-space:pre-line;font-size:16px;text-wrap:pretty;max-width:480px">{{ it.desc }}</p>
+                <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:auto">
+                  <span style="{{ K.priceBig }}">{{ it.price2 }}</span><span style="{{ K.mono }};font-size:13px;color:hsl(var(--muted-foreground))">{{ it.price1 }}</span>
+                  <sc-if value="{{ it.hasBadge }}"><span style="{{ it.badgeStyle }}">{{ it.badge }}</span></sc-if>
+                  <sc-if value="{{ it.pre }}"><span style="{{ K.preTag }}">{{ L.preorder }}</span></sc-if>
+                </div>
+              </div>
+              <div style="{{ it.heroRight }}">
+                <div style="{{ it.boxHero }}"><sc-if value="{{ it.hasImg }}"><div style="{{ it.imgS }}"></div></sc-if><span style="{{ K.ph }}">{{ it.phText }}</span></div>
+              </div>
+            </div>
+          </sc-if>
+          <sc-if value="{{ it.notXL }}" hint-placeholder-val="{{ true }}">
+            <div style="padding:14px 14px 0"><div style="{{ it.boxCard }}"><sc-if value="{{ it.hasImg }}"><div style="{{ it.imgS }}"></div></sc-if><span style="{{ K.ph }}">{{ it.phText }}</span></div></div>
+            <div style="padding:18px 22px 22px;display:flex;flex-direction:column;gap:8px;flex:1">
+              <div style="display:flex;justify-content:space-between;gap:8px;align-items:center"><div style="{{ K.eyebrow }}">{{ it.eyebrow }}</div>
+                <sc-if value="{{ it.hasBadge }}"><span style="{{ it.badgeStyle }}">{{ it.badge }}</span></sc-if></div>
+              <div style="{{ K.h3 }}">{{ it.name }}</div>
+              <div style="{{ K.mono }};font-size:12px;color:hsl(var(--muted-foreground))">{{ it.pack }}</div>
+              <p style="margin:0;white-space:pre-line;font-size:15px;color:hsl(var(--muted-foreground));text-wrap:pretty">{{ it.desc }}</p>
+              <div style="display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;margin-top:auto;padding-top:10px">
+                <span style="{{ K.priceBig }}">{{ it.price2 }}</span><span style="{{ K.mono }};font-size:12px;color:hsl(var(--muted-foreground))">{{ it.price1 }}</span>
+                <sc-if value="{{ it.pre }}"><span style="{{ K.preTag }}">{{ L.preorder }}</span></sc-if>
+              </div>
+            </div>
+          </sc-if>
+        </div>
+      </sc-for>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ b.isCons }}" hint-placeholder-val="{{ false }}">
+    <sc-for list="{{ b.cats }}" as="cg" hint-placeholder-count="2">
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div style="display:flex;align-items:center;gap:12px"><h3 style="{{ K.h3 }};color:hsl(var(--primary));font-style:italic">{{ cg.name }}</h3><div style="flex:1;height:1px;background:hsl(var(--border))"></div></div>
+        <sc-if value="{{ cg.hasBanner }}"><div style="{{ cg.bannerS }}"></div></sc-if>
+        <sc-if value="{{ cg.hasCards }}">
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:16px">
+            <sc-for list="{{ cg.cards }}" as="c" hint-placeholder-count="2">
+              <div style="{{ c.box }}" style-hover="box-shadow:0 8px 30px -10px rgba(255,255,255,0.05)">
+                <div style="padding:14px 14px 0"><div style="{{ c.boxCard }}"><sc-if value="{{ c.hasImg }}"><div style="{{ c.imgS }}"></div></sc-if><span style="{{ K.ph }}">{{ c.phText }}</span></div></div>
+                <div style="padding:16px 20px 20px;display:flex;flex-direction:column;gap:6px;flex:1">
+                  <div><span style="{{ c.badgeStyle }}">{{ c.badge }}</span></div>
+                  <div style="{{ K.h3 }};font-size:20px">{{ c.name }}</div>
+                  <div style="{{ K.mono }};font-size:12px;color:hsl(var(--muted-foreground))">{{ c.pack }} · {{ c.code }}</div>
+                  <p style="margin:0;font-size:14px;color:hsl(var(--muted-foreground));white-space:pre-line">{{ c.desc }}</p>
+                  <div style="display:flex;gap:10px;align-items:baseline;margin-top:auto;padding-top:8px"><span style="{{ K.priceBig }}">{{ c.price2 }}</span><span style="{{ K.mono }};font-size:12px;color:hsl(var(--muted-foreground))">{{ c.price1 }}</span></div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+        <div style="display:flex;flex-direction:column">
+          <sc-for list="{{ cg.rows }}" as="r" hint-placeholder-count="4">
+            <div style="{{ r.rowS }}">
+              <div style="{{ r.boxThumb }}"><sc-if value="{{ r.hasImg }}"><div style="{{ r.imgS }}"></div></sc-if></div>
+              <div style="min-width:0"><div style="font-weight:700;font-size:15px">{{ r.name }}</div><sc-if value="{{ r.hasDesc }}"><div style="font-size:13px;color:hsl(var(--muted-foreground))">{{ r.desc }}</div></sc-if><sc-if value="{{ b.compact }}"><div style="{{ K.mono }};font-size:11px;color:hsl(var(--muted-foreground))">{{ r.pack }} · {{ r.code }}</div></sc-if></div>
+              <sc-if value="{{ b.wide }}"><div style="{{ K.mono }};font-size:12px">{{ r.pack }}</div><div style="{{ K.mono }};font-size:12px;color:hsl(var(--muted-foreground))">{{ r.code }}</div></sc-if>
+              <div style="{{ K.mono }};font-size:13px;text-align:right">{{ r.price1 }}</div>
+              <div style="{{ K.mono }};font-size:13px;text-align:right;color:hsl(var(--primary))">{{ r.price2 }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </sc-for>
+  </sc-if>
+
+  <sc-if value="{{ b.isBuf }}" hint-placeholder-val="{{ false }}">
+    <div style="padding:16px 22px;border-radius:999px;background:hsl(var(--olive-soft));border:1px solid hsl(var(--border));display:flex;align-items:center;gap:12px;font-weight:700;font-size:15px;text-wrap:pretty">
+      <span style="width:8px;height:8px;border-radius:50%;background:hsl(var(--primary));flex:none"></span>{{ L.bufBanner }}
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:16px">
+      <sc-for list="{{ b.items }}" as="c" hint-placeholder-count="3">
+        <div style="{{ c.box }}" style-hover="box-shadow:0 8px 30px -10px rgba(255,255,255,0.05)">
+          <div style="padding:14px 14px 0"><div style="{{ c.boxCard }}"><sc-if value="{{ c.hasImg }}"><div style="{{ c.imgS }}"></div></sc-if><span style="{{ K.ph }}">{{ c.phText }}</span></div></div>
+          <div style="padding:16px 20px 20px;display:flex;flex-direction:column;gap:10px;flex:1">
+            <div style="{{ K.h3 }};font-size:20px">{{ c.name }}</div>
+            <div style="{{ K.mono }};font-size:13px;color:hsl(var(--muted-foreground))">{{ c.pack }}</div>
+            <div style="display:grid;grid-template-columns:auto 1fr;gap:4px 14px;font-size:14px">
+              <span style="color:hsl(var(--muted-foreground))">{{ L.shelf }}</span><span style="font-weight:700">{{ c.shelf }}</span>
+              <span style="color:hsl(var(--muted-foreground))">{{ L.minOrder }}</span><span style="font-weight:700">{{ c.minOrd }}</span>
+            </div>
+            <div style="display:flex;gap:10px;align-items:baseline;margin-top:auto;padding-top:6px"><span style="{{ K.priceBig }}">{{ c.price2 }}</span><span style="{{ K.mono }};font-size:12px;color:hsl(var(--muted-foreground))">{{ c.price1 }}</span></div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ b.isStory }}" hint-placeholder-val="{{ false }}">
+    <div style="display:grid;grid-template-columns:{{ b.storyCols }};gap:{{ b.storyGap }}px;align-items:center">
+      <div style="{{ b.imgOrder }}"><div style="{{ b.imgBox }}"><sc-if value="{{ b.hasImg }}"><div style="{{ b.imgS }}"></div></sc-if><span style="{{ K.ph }}">{{ b.phText }}</span></div></div>
+      <div style="display:flex;flex-direction:column;gap:16px;align-items:flex-start">
+        <div style="{{ K.eyebrow }}">{{ b.eyebrow }}</div>
+        <h2 style="{{ K.h2 }}"><sc-for list="{{ b.titleParts }}" as="tp" hint-placeholder-count="2"><span style="{{ tp.s }}">{{ tp.t }}</span></sc-for></h2>
+        <p style="margin:0;font-size:17px;text-wrap:pretty;max-width:560px">{{ b.text }}</p>
+        <sc-if value="{{ b.hasFacts }}"><div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;width:100%;max-width:560px">
+          <sc-for list="{{ b.facts }}" as="f" hint-placeholder-count="3"><div style="border-top:1px solid hsl(var(--primary));padding-top:10px;display:flex;flex-direction:column;gap:2px"><span style="{{ K.h2 }};font-size:34px">{{ f.n }}</span><span style="font-size:13px;color:hsl(var(--muted-foreground));line-height:1.35">{{ f.t }}</span></div></sc-for>
+        </div></sc-if>
+        <sc-if value="{{ b.hasQuote }}"><blockquote style="margin:0;font-style:italic;font-size:19px;color:hsl(var(--primary));max-width:520px">„{{ b.quote }}”<div style="{{ K.eyebrowBase }};font-style:normal;color:hsl(var(--muted-foreground));margin-top:8px">Michael Levy Reich</div></blockquote></sc-if>
+        <sc-if value="{{ b.hasLink }}"><button data-id="{{ b.link }}" onClick="{{ goAnchor }}" style="{{ K.pill }}">{{ L.relatedProducts }}<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></button></sc-if>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ b.isList }}" hint-placeholder-val="{{ false }}">
+    <sc-for list="{{ b.cats }}" as="cg" hint-placeholder-count="2">
+      <div style="display:flex;flex-direction:column">
+        <div style="{{ K.eyebrow }};padding:6px 0 10px">{{ cg.name }}</div>
+        <div style="{{ b.listHead }}"><span>{{ L.thCode }}</span><span>{{ L.thProduct }}</span><sc-if value="{{ b.wide }}"><span>{{ L.thPack }}</span></sc-if><span style="text-align:right">{{ L.thDb }}</span><span style="text-align:right">{{ L.thUnit }}</span></div>
+        <sc-for list="{{ cg.rows }}" as="r" hint-placeholder-count="4">
+          <div style="{{ b.listRow }}"><span style="{{ K.mono }};font-size:12px;color:hsl(var(--muted-foreground))">{{ r.code }}</span><span style="font-size:14px;font-weight:600">{{ r.name }}<sc-if value="{{ b.compact }}"><span style="{{ K.mono }};font-weight:400;font-size:11px;color:hsl(var(--muted-foreground))"> · {{ r.pack }}</span></sc-if></span><sc-if value="{{ b.wide }}"><span style="{{ K.mono }};font-size:12px">{{ r.pack }}</span></sc-if><span style="{{ K.mono }};font-size:13px;text-align:right">{{ r.price1 }}</span><span style="{{ K.mono }};font-size:13px;text-align:right;color:hsl(var(--primary))">{{ r.price2 }}</span></div>
+        </sc-for>
+      </div>
+    </sc-for>
+  </sc-if>
+
+  <sc-if value="{{ b.isContact }}" hint-placeholder-val="{{ false }}">
+    <div style="{{ b.contactImg }}"></div>
+    <div style="display:grid;grid-template-columns:{{ b.contactCols }};gap:16px">
+      <div style="background:hsl(var(--card));border:1px solid hsl(var(--border));border-radius:20px;padding:24px;display:flex;flex-direction:column;gap:14px">
+        <div style="width:44px;height:44px;border-radius:12px;background:hsl(var(--olive-soft));color:hsl(var(--primary));display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg></div>
+        <div style="display:grid;grid-template-columns:auto 1fr;gap:8px 16px;font-size:15px">
+          <span style="color:hsl(var(--muted-foreground))">{{ L.order }}</span><a href="{{ b.ordersHref }}">{{ b.orders }}</a>
+          <span style="color:hsl(var(--muted-foreground))">{{ L.support }}</span><a href="{{ b.supportHref }}">{{ b.support }}</a>
+          <span style="color:hsl(var(--muted-foreground))">Web</span><a href="{{ b.webHref }}" target="_blank">{{ b.web }}</a>
+          <span style="color:hsl(var(--muted-foreground))">Instagram</span><a href="{{ b.igHref }}" target="_blank">{{ b.ig }}</a>
+          <span style="color:hsl(var(--muted-foreground))">Facebook</span><a href="{{ b.fbHref }}" target="_blank">{{ b.fb }}</a>
+          <span style="color:hsl(var(--muted-foreground))">{{ L.address }}</span><span>{{ b.address }}</span>
+        </div>
+      </div>
+      <div style="background:hsl(var(--card));border:1px solid hsl(var(--border));border-radius:20px;padding:24px;display:flex;flex-direction:column;gap:12px">
+        <sc-for list="{{ b.phones }}" as="ph" hint-placeholder-count="3"><div style="display:flex;justify-content:space-between;gap:12px;align-items:baseline;font-size:15px;border-bottom:1px solid hsl(var(--border));padding-bottom:10px"><span style="color:hsl(var(--muted-foreground))">{{ ph.lang }} · {{ ph.name }}</span><a href="{{ ph.href }}" style="{{ K.mono }};font-size:14px">{{ ph.num }}</a></div></sc-for>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap">
+      <p style="margin:0;color:hsl(var(--muted-foreground));font-size:14px;max-width:560px;text-wrap:pretty">{{ b.priceNote }}</p>
+      <a href="{{ b.shop }}" target="_blank" style="{{ K.cta }}">{{ L.orderNow }}</a>
+    </div>
+    <div style="border-top:1px solid hsl(var(--border));padding-top:20px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap"><div role="img" aria-label="PILPEL" style="{{ lg.foot }}"></div><span style="{{ K.mono }};font-size:12px;color:hsl(var(--muted-foreground))">{{ b.foot }}</span></div>
+  </sc-if>
+
+</section>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ isPrint }}" hint-placeholder-val="{{ false }}">
+<div class="np" style="display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap;padding:12px;background:hsl(30 10% 13%);border-bottom:1px solid hsl(30 10% 20%);color:hsl(40 20% 92%)">
+  <button data-d="prev" onClick="{{ go }}" style="{{ barBtn }}">←</button>
+  <span style="font-family:'JetBrains Mono',monospace;font-size:12px;min-width:84px;text-align:center">{{ pageCountLabel }}</span>
+  <button data-d="next" onClick="{{ go }}" style="{{ barBtn }}">→</button>
+  <button onClick="{{ doPrint }}" style="{{ barBtnOn }}">{{ L.savePdf }}</button>
+  <button onClick="{{ toggleLite }}" style="{{ liteStyle }}">{{ L.lite }}</button>
+  <button onClick="{{ copyLink }}" style="{{ barBtn }}">{{ L.copyLink }}</button>
+</div>
+<button class="np" data-d="prev" onClick="{{ go }}" style="{{ prevStyle }}">←</button>
+<button class="np" data-d="next" onClick="{{ go }}" style="{{ nextStyle }}">→</button>
+<div class="pgw" style="{{ pgwStyle }}">
+<sc-for list="{{ pages }}" as="pg" hint-placeholder-count="2">
+  <div class="pg" style="{{ pg.style }}">
+    <div class="spine" style="{{ pg.spine }}"></div>
+    <div style="{{ pg.headStyle }}"><div role="img" aria-label="PILPEL" style="{{ pg.headLogo }}"></div><span style="{{ K.eyebrowBase }};color:hsl(var(--muted-foreground))">{{ pg.label }}</span></div>
+    <div style="flex:1;min-height:0;display:flex;flex-direction:column;gap:14px;padding-top:16px;overflow:hidden">
+
+      <sc-if value="{{ pg.isCover }}" hint-placeholder-val="{{ false }}">
+        <div style="{{ pg.coverBg }}"></div>
+        <div style="flex:1;display:flex;flex-direction:column;min-height:0;padding-top:424px;gap:22px;position:relative">
+          <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px">
+            <div role="img" aria-label="PILPEL DELI" style="{{ lg.pBig }};width:290px"></div>
+            <div style="{{ K.mono }};font-size:12px;color:hsl(var(--muted-foreground));text-align:right;line-height:1.6;padding-bottom:6px">{{ pg.sub }}</div>
+          </div>
+          <div style="height:1px;background:hsl(var(--border))"></div>
+          <h1 style="{{ K.h2 }};font-size:84px;line-height:.98;margin:0"><sc-for list="{{ pg.coverParts }}" as="tp" hint-placeholder-count="2"><span style="{{ tp.s }};display:block">{{ tp.t }}</span></sc-for></h1>
+          <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap"><span style="display:inline-flex;padding:7px 16px;border-radius:999px;background:hsl(var(--primary));color:hsl(30 10% 10%);{{ K.eyebrowBase }}">{{ L.forChefs }}</span><span style="{{ K.h3 }};font-size:26px;color:hsl(var(--primary));font-style:italic">{{ pg.tagline }}</span></div>
+          <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin-top:auto;padding-bottom:6px">
+            <sc-for list="{{ pg.pillars }}" as="pl" hint-placeholder-count="3"><div style="display:flex;flex-direction:column;gap:5px;border-top:1px solid hsl(var(--primary));padding-top:10px"><span style="{{ K.mono }};font-size:13px;color:hsl(var(--primary))">{{ pl.n }}</span><b style="{{ K.h3 }};font-size:25px;line-height:1.08">{{ pl.title }}</b><span style="font-size:15px;line-height:1.5;color:hsl(var(--muted-foreground))">{{ pl.text }}</span></div></sc-for>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ pg.isAbout }}" hint-placeholder-val="{{ false }}">
+        <div style="{{ pg.aboutBg }}"></div>
+        <div style="{{ K.eyebrow }}">{{ pg.s.eyebrow }}</div>
+        <h2 style="{{ K.h2 }};font-size:58px;line-height:1.02"><sc-for list="{{ pg.s.titleParts }}" as="tp" hint-placeholder-count="2"><span style="{{ tp.s }}">{{ tp.t }}</span></sc-for></h2>
+        <p style="margin:0;font-size:16px;line-height:1.6;max-width:620px;text-wrap:pretty">{{ pg.s.text }}</p>
+        <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:8px">
+          <sc-for list="{{ pg.s.facts }}" as="f" hint-placeholder-count="3"><div style="border-top:1px solid hsl(var(--primary));padding-top:10px;display:flex;flex-direction:column;gap:3px"><span style="{{ K.h2 }};font-size:44px">{{ f.n }}</span><span style="font-size:12.5px;color:hsl(var(--muted-foreground));line-height:1.35">{{ f.t }}</span></div></sc-for>
+        </div>
+        <div style="margin-top:auto;display:flex;gap:22px;flex-wrap:wrap;{{ K.monoBase }};font-size:11px;color:hsl(var(--muted-foreground))"><span>{{ pg.ig }}</span><span>{{ pg.fb }}</span><span>{{ pg.address }}</span></div>
+      </sc-if>
+
+      <sc-if value="{{ pg.isIntro }}" hint-placeholder-val="{{ false }}">
+        <div style="{{ pg.introBg }}"></div>
+        <div style="{{ K.eyebrow }}">{{ pg.s.eyebrow }}</div>
+        <h2 style="{{ K.h2 }};font-size:64px;line-height:1.02"><sc-for list="{{ pg.s.titleParts }}" as="tp" hint-placeholder-count="2"><span style="{{ tp.s }}">{{ tp.t }}</span></sc-for></h2>
+        <p style="margin:0;font-size:17px;line-height:1.6;max-width:610px;text-wrap:pretty">{{ pg.s.text }}</p>
+        <sc-if value="{{ pg.s.hasQuote }}"><p style="margin:0;font-size:18px;font-style:italic;color:hsl(var(--primary));max-width:480px">„{{ pg.s.quote }}”</p></sc-if>
+        <div style="{{ pg.kitchenBg }};flex:1;min-height:100px;margin-top:8px"></div>
+      </sc-if>
+
+      <sc-if value="{{ pg.isHero }}" hint-placeholder-val="{{ false }}">
+        <div style="{{ pg.panel }}">
+          <div style="padding:22px 28px 0;display:flex;justify-content:space-between;align-items:baseline"><span style="{{ K.h2 }};font-size:64px;line-height:.9">{{ pg.num }}</span><span style="{{ K.eyebrowBase }}">{{ pg.tag }}</span></div>
+          <div style="flex:1;min-height:0;padding:16px 28px 28px;display:flex"><div style="{{ pg.it.boxPHero }};flex:1;height:auto"><sc-if value="{{ pg.it.hasImg }}"><div style="{{ pg.it.imgPS }}"></div></sc-if><span style="{{ K.ph }}">{{ pg.it.phText }}</span></div></div>
+        </div>
+        <div style="{{ K.eyebrow }};margin-top:6px">{{ pg.it.eyebrow }}</div>
+        <h2 style="{{ K.h2 }};font-size:50px">{{ pg.it.name }}</h2>
+        <div style="{{ K.mono }};font-size:12px;color:hsl(var(--muted-foreground))">{{ pg.it.pack }}</div>
+        <p style="margin:0;font-size:14.5px;line-height:1.6;max-width:500px;white-space:pre-line;text-wrap:pretty">{{ pg.it.desc }}</p>
+        <div style="display:flex;align-items:baseline;gap:14px;margin-top:12px;font-family:Mulish,sans-serif"><span style="font-size:38px;font-weight:800;letter-spacing:-.01em;line-height:1">{{ pg.it.price2 }}</span><span style="font-size:16px;font-weight:600;color:hsl(var(--muted-foreground))">{{ pg.it.price1 }}</span></div>
+      </sc-if>
+
+      <sc-if value="{{ pg.isGrid }}" hint-placeholder-val="{{ false }}">
+        <sc-if value="{{ pg.hasGridTitle }}"><h2 style="{{ K.h2 }};font-size:34px">{{ pg.gridTitle }}</h2></sc-if>
+        <div style="display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:1fr;gap:14px;flex:1;min-height:0">
+          <sc-for list="{{ pg.items }}" as="it" hint-placeholder-count="4">
+            <div style="{{ it.pcard }}">
+              <div style="{{ it.boxPrint }}"><sc-if value="{{ it.hasImg }}"><div style="{{ it.imgS }}"></div></sc-if><span style="{{ K.ph }}">{{ it.phText }}</span></div>
+              <div style="{{ K.eyebrow }};font-size:10px">{{ it.eyebrow }}</div>
+              <div style="{{ K.h3 }};font-size:27px;line-height:1.05">{{ it.name }}</div>
+              <div style="{{ K.mono }};font-size:11px;color:hsl(var(--muted-foreground))">{{ it.pack }}</div>
+              <div style="font-size:12px;line-height:1.4;color:hsl(var(--muted-foreground));white-space:pre-line">{{ it.desc }}</div>
+              <div style="display:flex;align-items:baseline;gap:10px;margin-top:auto;font-family:Mulish,sans-serif"><span style="font-size:21px;font-weight:800">{{ it.price2 }}</span><span style="font-size:12px;color:hsl(var(--muted-foreground))">{{ it.price1 }}</span></div>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ pg.isRows }}" hint-placeholder-val="{{ false }}">
+        <sc-if value="{{ pg.hasBanner }}"><div style="{{ pg.banner.style }}">
+          <div style="padding:22px 20px 22px 52px;display:flex;flex-direction:column;justify-content:space-between"><span style="{{ K.h2 }};font-size:76px;line-height:.9;color:hsl(var(--primary))">{{ pg.banner.num }}</span><div><div style="{{ K.eyebrow }};margin-bottom:6px">{{ pg.banner.eyebrow }}</div><div style="{{ K.h2 }};font-size:30px"><sc-for list="{{ pg.banner.titleParts }}" as="tp" hint-placeholder-count="2"><span style="{{ tp.s }}">{{ tp.t }}</span></sc-for></div></div></div>
+          <div style="{{ pg.banner.bg }}"></div>
+        </div></sc-if>
+        <sc-if value="{{ pg.hasTitle }}"><h2 style="{{ K.h2 }};font-size:36px">{{ pg.title }}</h2></sc-if>
+        <sc-if value="{{ pg.hasCards }}"><div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px">
+          <sc-for list="{{ pg.cards }}" as="c" hint-placeholder-count="3"><div style="{{ c.pcard }}"><div style="{{ c.boxS }}"><sc-if value="{{ c.hasImg }}"><div style="{{ c.imgS }}"></div></sc-if><span style="{{ K.ph }}">{{ c.phText }}</span></div><div><span style="{{ c.badgeStyle }}">{{ c.badge }}</span></div><div style="{{ K.h3 }};font-size:16px">{{ c.name }}</div><div style="{{ K.mono }};font-size:9.5px;color:hsl(var(--muted-foreground))">{{ c.pack }}</div><div style="{{ K.mono }};font-size:11px"><b>{{ c.price2 }}</b></div></div></sc-for>
+        </div></sc-if>
+        <div style="display:flex;flex-direction:column">
+          <div style="{{ thStyle }}"><span>{{ L.thCode }}</span><span>{{ L.thProduct }}</span><span>{{ L.thPack }}</span><span style="text-align:right">{{ L.thDb }}</span><span style="text-align:right">{{ L.thUnit }}</span></div>
+          <sc-for list="{{ pg.entries }}" as="e" hint-placeholder-count="6">
+            <sc-if value="{{ e.isHead }}"><div style="{{ K.h3 }};font-size:19px;font-style:italic;color:hsl(var(--primary));padding:14px 0 4px">{{ e.name }}</div></sc-if>
+            <sc-if value="{{ e.isRow }}"><div style="{{ e.rowS }}"><span style="{{ K.mono }};font-size:9.5px;color:hsl(var(--muted-foreground))">{{ e.code }}</span><span style="font-size:11.5px;font-weight:700;line-height:1.2">{{ e.name }}</span><span style="{{ K.mono }};font-size:10px">{{ e.pack }}</span><span style="{{ K.mono }};font-size:10.5px;text-align:right">{{ e.price1 }}</span><span style="{{ K.mono }};font-size:10.5px;text-align:right;color:hsl(var(--primary));font-weight:700">{{ e.price2 }}</span></div></sc-if>
+          </sc-for>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ pg.isBuf }}" hint-placeholder-val="{{ false }}">
+        <div style="{{ pg.banner.style }}">
+          <div style="padding:22px 20px 22px 52px;display:flex;flex-direction:column;justify-content:space-between"><span style="{{ K.h2 }};font-size:76px;line-height:.9;color:hsl(var(--primary))">{{ pg.banner.num }}</span><div><div style="{{ K.eyebrow }};margin-bottom:6px">{{ pg.banner.eyebrow }}</div><div style="{{ K.h2 }};font-size:30px"><sc-for list="{{ pg.banner.titleParts }}" as="tp" hint-placeholder-count="2"><span style="{{ tp.s }}">{{ tp.t }}</span></sc-for></div></div></div>
+          <div style="{{ pg.banner.bg }}"></div>
+        </div>
+        <div style="padding:11px 18px;border-radius:999px;background:hsl(var(--olive-soft));border:1px solid hsl(var(--border));font-weight:700;font-size:12px">{{ L.bufBanner }}</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:1fr;gap:12px;flex:1;min-height:0;padding-bottom:16px">
+          <sc-for list="{{ pg.items }}" as="c" hint-placeholder-count="6">
+            <div style="{{ c.pcard }}">
+              <div style="{{ c.boxS }}"><sc-if value="{{ c.hasImg }}"><div style="{{ c.imgS }}"></div></sc-if><span style="{{ K.ph }}">{{ c.phText }}</span></div>
+              <div style="{{ K.h3 }};font-size:18px">{{ c.name }}</div>
+              <div style="{{ K.mono }};font-size:10px;color:hsl(var(--muted-foreground))">{{ c.pack }}</div>
+              <div style="display:grid;grid-template-columns:auto 1fr;gap:2px 10px;font-size:11px"><span style="color:hsl(var(--muted-foreground))">{{ L.shelf }}</span><b>{{ c.shelf }}</b><span style="color:hsl(var(--muted-foreground))">{{ L.minOrder }}</span><b>{{ c.minOrd }}</b></div>
+              <div style="{{ K.mono }};font-size:12px;margin-top:auto"><b>{{ c.price2 }}</b> · {{ c.price1 }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ pg.isSup }}" hint-placeholder-val="{{ false }}">
+        <sc-if value="{{ pg.hasTitle }}"><h2 style="{{ K.h2 }};font-size:36px">{{ pg.title }}</h2></sc-if>
+        <div style="flex:1;min-height:0;display:flex;flex-direction:column;gap:16px;padding-bottom:16px">
+          <sc-for list="{{ pg.items }}" as="s" hint-placeholder-count="3">
+            <div style="display:grid;grid-template-columns:230px 1fr;gap:22px;flex:1;min-height:0">
+              <div style="{{ s.imgBox }}"><span style="{{ K.ph }}">{{ s.phText }}</span></div>
+              <div style="display:flex;flex-direction:column;gap:8px;justify-content:center"><div style="{{ K.eyebrow }};font-size:9.5px">{{ s.eyebrow }}</div><div style="{{ K.h3 }};font-size:26px"><sc-for list="{{ s.titleParts }}" as="tp" hint-placeholder-count="2"><span style="{{ tp.s }}">{{ tp.t }}</span></sc-for></div><div style="font-size:12.5px;line-height:1.55;text-wrap:pretty">{{ s.text }}</div></div>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ pg.isContact }}" hint-placeholder-val="{{ false }}">
+        <div style="{{ pg.contactBg }}"></div>
+        <div style="--primary:90 32% 64%;position:relative;height:486px;flex:none;margin-top:-16px;margin-bottom:64px;display:flex;flex-direction:column;justify-content:space-between;color:hsl(40 20% 94%)">
+          <div role="img" aria-label="PILPEL DELI" style="{{ lg.revWide }}"></div>
+          <div style="display:flex;flex-direction:column;gap:20px;align-items:flex-start">
+            <div style="{{ K.eyebrow }};color:hsl(40 20% 94%)">{{ pg.eyebrow }}</div>
+            <h2 style="{{ K.h2 }};font-size:118px;line-height:.94;margin:0;color:hsl(40 20% 96%)"><sc-for list="{{ pg.titleParts }}" as="tp" hint-placeholder-count="2"><span style="{{ tp.s }}">{{ tp.t }}</span></sc-for></h2>
+            <span style="{{ K.cta }};font-size:16px;padding:17px 32px;background:hsl(90 25% 42%);color:hsl(40 20% 96%)">{{ L.orderNow }} → {{ pg.shopShort }}</span>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:auto 1fr;gap:12px 28px;font-size:16px;padding-top:14px">
+          <span style="color:hsl(var(--muted-foreground))">{{ L.order }}</span><b>{{ pg.orders }}</b>
+          <span style="color:hsl(var(--muted-foreground))">{{ L.support }}</span><b>{{ pg.support }}</b>
+          <span style="color:hsl(var(--muted-foreground))">Web</span><b>{{ pg.web }}</b>
+          <span style="color:hsl(var(--muted-foreground))">Instagram</span><b>{{ pg.ig }}</b>
+          <span style="color:hsl(var(--muted-foreground))">Facebook</span><b>{{ pg.fb }}</b>
+          <span style="color:hsl(var(--muted-foreground))">{{ L.address }}</span><b>{{ pg.address }}</b>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px;padding-top:6px">
+          <sc-for list="{{ pg.phones }}" as="ph" hint-placeholder-count="3"><div style="display:flex;justify-content:space-between;font-size:16px;border-bottom:1px solid hsl(var(--border));padding-bottom:9px;align-items:baseline"><span style="color:hsl(var(--muted-foreground))">{{ ph.lang }} · {{ ph.name }}</span><b style="{{ K.mono }};font-size:19px">{{ ph.num }}</b></div></sc-for>
+        </div>
+        <p style="margin:auto 0 0;font-size:12px;color:hsl(var(--muted-foreground));max-width:520px">{{ pg.priceNote }}</p>
+      </sc-if>
+
+    </div>
+    <div style="{{ pg.footStyle }}"><span style="{{ K.h3 }};font-size:22px;line-height:1">{{ pg.n }}</span><span>{{ pg.foot }}</span></div>
+  </div>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ isAdmin }}" hint-placeholder-val="{{ false }}">
+<div style="max-width:1500px;margin:0 auto;padding:24px 20px 80px;display:flex;flex-direction:column;gap:20px">
+  <div style="display:flex;gap:6px;flex-wrap:wrap">
+    <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="6"><button data-id="{{ t.id }}" onClick="{{ setTab }}" style="{{ t.style }}">{{ t.label }}</button></sc-for>
+  </div>
+
+  <sc-if value="{{ tabProducts }}">
+    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+      <select value="{{ filt.sec }}" data-f="sec" onChange="{{ onFilt }}" style="{{ K.inp }};width:auto"><sc-for list="{{ secOpts }}" as="o" hint-placeholder-count="4"><option value="{{ o.v }}">{{ o.l }}</option></sc-for></select>
+      <select value="{{ filt.cat }}" data-f="cat" onChange="{{ onFilt }}" style="{{ K.inp }};width:auto"><sc-for list="{{ catOpts }}" as="o" hint-placeholder-count="4"><option value="{{ o.v }}">{{ o.l }}</option></sc-for></select>
+      <label style="{{ K.ghost }};cursor:pointer">{{ L.bulkUp }}<input type="file" accept="image/*" multiple onChange="{{ onBulk }}" style="display:none"></label>
+      <span style="{{ K.mono }};font-size:12px;color:hsl(var(--muted-foreground))">{{ prodCount }}</span>
+    </div>
+    <div style="overflow-x:auto;border:1px solid hsl(var(--border));border-radius:20px;background:hsl(var(--card))">
+      <div style="min-width:max-content">
+        <div style="{{ K.trHead }}"><sc-for list="{{ cols }}" as="c" hint-placeholder-count="8"><span>{{ c.l }}</span></sc-for></div>
+        <sc-for list="{{ rows }}" as="r" hint-placeholder-count="6">
+          <div data-id="{{ r.id }}" onClick="{{ selRow }}" style="{{ r.style }}">
+            <sc-for list="{{ r.cells }}" as="c" hint-placeholder-count="8">
+              <div>
+                <sc-if value="{{ c.isText }}"><input value="{{ c.v }}" data-id="{{ r.id }}" data-f="{{ c.f }}" data-kind="text" onChange="{{ onCell }}" style="{{ K.cell }}"></sc-if>
+                <sc-if value="{{ c.isNum }}"><input type="number" value="{{ c.v }}" data-id="{{ r.id }}" data-f="{{ c.f }}" data-kind="num" onChange="{{ onCell }}" style="{{ K.cellNum }}"></sc-if>
+                <sc-if value="{{ c.isCheck }}"><input type="checkbox" checked="{{ c.v }}" data-id="{{ r.id }}" data-f="{{ c.f }}" data-kind="check" onChange="{{ onCell }}" style="width:18px;height:18px;accent-color:hsl(90 25% 42%)"></sc-if>
+                <sc-if value="{{ c.isSel }}"><select value="{{ c.v }}" data-id="{{ r.id }}" data-f="{{ c.f }}" data-kind="text" onChange="{{ onCell }}" style="{{ K.cellSel }}"><sc-for list="{{ c.opts }}" as="o" hint-placeholder-count="3"><option value="{{ o.v }}">{{ o.l }}</option></sc-for></select></sc-if>
+                <sc-if value="{{ c.isInfo }}"><span style="{{ c.infoStyle }}">{{ c.v }}</span></sc-if>
+              </div>
+            </sc-for>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+    <sc-if value="{{ hasSel }}">
+      <div style="{{ K.panel }}">
+        <div style="{{ K.h3 }}">{{ sel.name }} <span style="{{ K.mono }};font-size:12px;color:hsl(var(--muted-foreground))">{{ sel.code }}</span></div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:20px">
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <label style="{{ K.label }}">{{ L.descHu }}<textarea rows="4" value="{{ sel.desc_hu }}" data-id="{{ sel.id }}" data-f="desc_hu" data-kind="text" onChange="{{ onCell }}" style="{{ K.inp }};resize:vertical"></textarea></label>
+            <label style="{{ K.label }}">{{ L.descEn }}<textarea rows="4" value="{{ sel.desc_en }}" data-id="{{ sel.id }}" data-f="desc_en" data-kind="text" onChange="{{ onCell }}" style="{{ K.inp }};resize:vertical"></textarea></label>
+            <label style="display:flex;gap:8px;align-items:center;font-size:13px"><input type="checkbox" checked="{{ sel.mt }}" data-id="{{ sel.id }}" data-f="mt" data-kind="check" onChange="{{ onCell }}" style="accent-color:hsl(90 25% 42%)">{{ L.mtLabel }}</label>
+            <label style="{{ K.label }}">{{ L.storyRef }}<select value="{{ sel.story }}" data-id="{{ sel.id }}" data-f="story" data-kind="text" onChange="{{ onCell }}" style="{{ K.inp }}"><sc-for list="{{ storyOpts }}" as="o" hint-placeholder-count="4"><option value="{{ o.v }}">{{ o.l }}</option></sc-for></select></label>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div style="{{ K.eyebrow }}">{{ L.images }}</div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap">
+              <sc-for list="{{ sel.imgs }}" as="im" hint-placeholder-count="1">
+                <div style="display:flex;flex-direction:column;gap:6px;align-items:center">
+                  <div role="img" data-id="{{ im.i }}" onClick="{{ setMain }}" style="{{ im.style }}"></div>
+                  <button data-id="{{ im.i }}" onClick="{{ delImg }}" style="{{ K.mini }}">{{ L.remove }}</button>
+                </div>
+              </sc-for>
+              <label data-pid="{{ sel.id }}" onDragOver="{{ noDef }}" onDrop="{{ onDropImg }}" style="{{ K.drop }}"><span style="text-align:center;padding:8px">{{ L.dropImg }}</span><input type="file" accept="image/*" multiple onChange="{{ onPickImg }}" style="display:none"></label>
+            </div>
+            <label style="display:flex;gap:8px;align-items:center;font-size:13px"><input type="checkbox" checked="{{ sel.cutout }}" onChange="{{ toggleCut }}" style="accent-color:hsl(90 25% 42%)">{{ L.cutout }}</label>
+            <sc-if value="{{ sel.hasMain }}">
+              <div style="{{ K.label }}">{{ L.focus }}
+                <div data-pid="{{ sel.id }}" onClick="{{ setFocus }}" style="{{ sel.focusBox }}"><div style="{{ sel.mainStyle }}"></div><span style="{{ sel.focusDot }}"></span></div>
+              </div>
+            </sc-if>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+  </sc-if>
+
+  <sc-if value="{{ tabLayout }}">
+    <div style="{{ K.panel }}">
+      <div style="{{ K.eyebrow }}">{{ L.layoutHl }}</div>
+      <p style="margin:0;font-size:13px;color:hsl(var(--muted-foreground))">{{ L.layoutHint }}</p>
+      <div style="display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:10px">
+        <sc-for list="{{ layoutItems }}" as="it" hint-placeholder-count="6">
+          <div draggable="true" data-id="{{ it.id }}" onDragStart="{{ dragStart }}" onDragOver="{{ noDef }}" onDrop="{{ dropOn }}" style="{{ it.style }}">
+            <div style="font-weight:800;font-size:13px;line-height:1.2">{{ it.name }}</div>
+            <div style="{{ K.mono }};font-size:10px;color:hsl(var(--muted-foreground))">{{ it.pack }}</div>
+            <div style="display:flex;gap:4px;margin-top:auto"><sc-for list="{{ it.sizes }}" as="z" hint-placeholder-count="4"><button data-id="{{ it.id }}" data-sz="{{ z.sz }}" onClick="{{ setSize }}" style="{{ z.style }}">{{ z.sz }}</button></sc-for></div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+    <div style="{{ K.panel }}">
+      <div style="{{ K.eyebrow }}">{{ L.storySlots }}</div>
+      <sc-for list="{{ slots }}" as="sl" hint-placeholder-count="5">
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:10px 0;border-bottom:1px solid hsl(var(--border))">
+          <span style="width:150px;font-weight:700;font-size:14px">{{ sl.label }}</span>
+          <sc-for list="{{ sl.items }}" as="s" hint-placeholder-count="1">
+            <span style="display:inline-flex;align-items:center;gap:4px;padding:4px 6px 4px 12px;border-radius:999px;background:hsl(var(--muted));font-size:12px">{{ s.title }}
+              <button data-slot="{{ sl.id }}" data-sid="{{ s.sid }}" data-act="up" onClick="{{ onPlace }}" style="{{ K.mini }}">↑</button><button data-slot="{{ sl.id }}" data-sid="{{ s.sid }}" data-act="down" onClick="{{ onPlace }}" style="{{ K.mini }}">↓</button><button data-slot="{{ sl.id }}" data-sid="{{ s.sid }}" data-act="del" onClick="{{ onPlace }}" style="{{ K.mini }}">✕</button></span>
+          </sc-for>
+          <select value="" data-slot="{{ sl.id }}" data-act="add" onChange="{{ onPlace }}" style="{{ K.inp }};width:auto"><sc-for list="{{ sl.addOpts }}" as="o" hint-placeholder-count="2"><option value="{{ o.v }}">{{ o.l }}</option></sc-for></select>
+        </div>
+      </sc-for>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ tabStories }}">
+    <div style="display:flex;gap:6px;flex-wrap:wrap"><sc-for list="{{ storyTabs }}" as="t" hint-placeholder-count="7"><button data-id="{{ t.id }}" onClick="{{ selStory }}" style="{{ t.style }}">{{ t.label }}</button></sc-for></div>
+    <div style="{{ K.panel }}">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:14px">
+        <sc-for list="{{ storyFields }}" as="f" hint-placeholder-count="8">
+          <label style="{{ K.label }}">{{ f.l }}
+            <sc-if value="{{ f.multi }}"><textarea rows="4" value="{{ f.v }}" data-f="{{ f.k }}" onChange="{{ onStory }}" style="{{ K.inp }};resize:vertical"></textarea></sc-if>
+            <sc-if value="{{ f.single }}"><input value="{{ f.v }}" data-f="{{ f.k }}" onChange="{{ onStory }}" style="{{ K.inp }}"></sc-if>
+          </label>
+        </sc-for>
+        <label style="{{ K.label }}">{{ L.link }}<select value="{{ storyLink }}" data-f="link" onChange="{{ onStory }}" style="{{ K.inp }}"><sc-for list="{{ linkOpts }}" as="o" hint-placeholder-count="4"><option value="{{ o.v }}">{{ o.l }}</option></sc-for></select></label>
+        <label style="{{ K.drop }};width:100%;height:80px;cursor:pointer"><span>{{ L.storyImg }}</span><input type="file" accept="image/*" data-f="img" onChange="{{ onStoryImg }}" style="display:none"></label>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ tabSettings }}">
+    <div style="{{ K.panel }}">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:14px">
+        <sc-for list="{{ setFields }}" as="f" hint-placeholder-count="10">
+          <label style="{{ K.label }}">{{ f.l }}<input type="{{ f.type }}" value="{{ f.v }}" data-f="{{ f.k }}" onChange="{{ onSet }}" style="{{ K.inp }}"></label>
+        </sc-for>
+      </div>
+      <div style="display:flex;gap:20px;flex-wrap:wrap;align-items:flex-end">
+        <label style="{{ K.drop }};width:240px;height:100px;cursor:pointer;background:hsl(30 10% 10%)"><sc-if value="{{ hasLogoDark }}" hint-placeholder-val="{{ false }}"><div style="{{ lg.prevDark }}"></div></sc-if><span>{{ L.logoDark }}</span><input type="file" accept="image/png,image/svg+xml" data-f="logoDark" onChange="{{ onLogo }}" style="display:none"></label>
+        <label style="{{ K.drop }};width:240px;height:100px;cursor:pointer;background:hsl(40 20% 94%);color:hsl(30 10% 10%)"><sc-if value="{{ hasLogoLight }}" hint-placeholder-val="{{ false }}"><div style="{{ lg.prevLight }}"></div></sc-if><span>{{ L.logoLight }}</span><input type="file" accept="image/png,image/svg+xml" data-f="logoLight" onChange="{{ onLogo }}" style="display:none"></label>
+        <button onClick="{{ resetLogos }}" style="{{ K.ghost }}">{{ L.resetLogo }}</button>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ tabImport }}">
+    <div style="{{ K.panel }}">
+      <div style="{{ K.eyebrow }}">{{ L.importTitle }}</div>
+      <p style="margin:0;font-size:14px;color:hsl(var(--muted-foreground));max-width:720px;text-wrap:pretty">{{ L.importHint }}</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <label style="{{ K.cta }};cursor:pointer">{{ L.pickFile }}<input type="file" accept=".xlsx,.csv,.txt" onChange="{{ onImport }}" style="display:none"></label>
+        <button onClick="{{ dlTemplate }}" style="{{ K.ghost }}">{{ L.dlTemplate }}</button>
+        <button onClick="{{ resetAll }}" style="{{ K.ghost }}">{{ L.resetSeed }}</button>
+      </div>
+    </div>
+    <sc-if value="{{ hasImp }}">
+      <div style="{{ K.panel }}">
+        <div style="display:flex;gap:8px;flex-wrap:wrap"><sc-for list="{{ imp.stats }}" as="s" hint-placeholder-count="6"><span style="{{ s.style }}">{{ s.label }}: {{ s.n }}</span></sc-for></div>
+        <div style="display:flex;flex-direction:column;border:1px solid hsl(var(--border));border-radius:14px;overflow:hidden;max-height:420px;overflow-y:auto">
+          <sc-for list="{{ imp.lines }}" as="ln" hint-placeholder-count="6"><div style="{{ ln.style }}"><span style="{{ K.mono }};font-size:11px">{{ ln.kind }}</span><span style="font-size:13px;font-weight:700">{{ ln.name }}</span><span style="{{ K.mono }};font-size:12px;color:hsl(var(--muted-foreground))">{{ ln.detail }}</span></div></sc-for>
+        </div>
+        <div style="display:flex;gap:10px"><button onClick="{{ applyImport }}" style="{{ K.cta }}">{{ L.apply }}</button><button onClick="{{ discardImport }}" style="{{ K.ghost }}">{{ L.discard }}</button></div>
+      </div>
+    </sc-if>
+  </sc-if>
+
+  <sc-if value="{{ tabExport }}">
+    <div style="{{ K.panel }}">
+      <div style="{{ K.eyebrow }}">{{ L.exportTitle }}</div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button onClick="{{ exportFull }}" style="{{ K.cta }}">{{ L.pdfFull }}</button>
+        <button onClick="{{ exportLite }}" style="{{ K.ghost }}">{{ L.pdfLite }}</button>
+        <button onClick="{{ copyLink }}" style="{{ K.ghost }}">{{ L.copyLink }}</button>
+      </div>
+      <p style="margin:0;font-size:13px;color:hsl(var(--muted-foreground));max-width:640px">{{ L.exportHint }}</p>
+    </div>
+  </sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{ hasToast }}"><div class="np" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);padding:12px 20px;border-radius:999px;background:hsl(40 20% 92%);color:hsl(30 10% 10%);font-weight:700;font-size:14px;z-index:100;box-shadow:0 8px 30px -10px rgba(0,0,0,.5)">{{ toast }}</div></sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const NB='\u00a0';
+const fmt=n=>String(Math.round(+n||0)).replace(/\B(?=(\d{3})+(?!\d))/g,NB);
+const HUM=['január','február','március','április','május','június','július','augusztus','szeptember','október','november','december'];
+const ENM=['January','February','March','April','May','June','July','August','September','October','November','December'];
+const mlabel=(m,hu)=>{const [y,mo]=(m||'2026-09').split('-').map(Number);return hu?`${y}. ${HUM[mo-1]}`:`${ENM[mo-1]} ${y}`;};
+const CATEN={'Paradicsomtermékek':'Tomato products','Feltétek és szószok':'Toppings & sauces','Citromlé, ecetek, gabonák':'Juice, vinegar & grains','Desszert és sütés':'Dessert & baking','Olívaolaj és olívabogyó':'Olive oil & olives','Professzionális lisztek':'Professional flours','Friss bivalytermékek':'Fresh buffalo dairy'};
+const CATMAP={'tomato products':'Paradicsomtermékek','toppings & sauce':'Feltétek és szószok','juice, vinegar, grains':'Citromlé, ecetek, gabonák','dessert & baking':'Desszert és sütés'};
+const BADGE={'Kedvező ár':['Kedvező ár','Great price'],'Prémium minőség':['Prémium minőség','Premium quality'],'Új':['Új','New'],'Előrendelés':['Előrendelés','Pre-order']};
+const FIX=[[/MAZZARELLA/gi,'MOZZARELLA'],[/CONSERTRATED/gi,'CONCENTRATED'],[/Naturaly/g,'Naturally'],[/packaking/g,'packaging'],[/cofrtable/g,'comfortable'],[/KONSZERV/g,'KONZERV'],[/MAGozott/g,'MAGOZOTT']];
+const fixc={n:0};
+const fix=s=>{let o=s;FIX.forEach(([a,b])=>{o=o.replace(a,b)});if(o!==s)fixc.n++;return o;};
+const PROPER=['Koroneiki','Colossal','Bullets','Kalamata','Arborio','Lacrimella','Amarena','Porcini','Italian','Burrata','Genoese','Modena','Molino Spadoni','Pistachio'];
+const casing=s=>{
+  const up=(s.match(/[A-ZÁÉÍÓÖŐÚÜŰ]/g)||[]).length,lo=(s.match(/[a-záéíóöőúüű]/g)||[]).length;
+  if(!up)return s;
+  let o=s.split(/(\s+)/).map(t=>(!/[a-záéíóöőúüű]/.test(t)&&/[A-ZÁÉÍÓÖŐÚÜŰ]{2}/.test(t)&&!/^[A-Z]{1,3}\d+[A-Z0-9]*[,.]?$/.test(t)&&!/^(EVOO|DOP|IGP)$/.test(t))?t.toLowerCase():t).join('');
+  PROPER.forEach(w=>{o=o.replace(new RegExp('\\b'+w+'\\b','gi'),w)});
+  o=o.replace(/(["„“])high brix/gi,'$1High Brix');
+  return o.replace(/(^|\s[-–]\s)([a-záéíóöőúüű])/g,(m,a,b)=>a+b.toUpperCase());
+};
+const sent=s=>{let o=casing(s);return /^[a-záéíóöőúüű]/.test(o)?o[0].toUpperCase()+o.slice(1):o;};
+const PACKW=/^(KONZERV|ÜVEGES(?: TÁROLÓEDÉNY)?|ALUBAG|TIN|BAG|GLASS JAR|BUCKET)$/i;
+const splitName=raw=>{
+  let s=fix(String(raw)).replace(/\s+,/g,',').replace(/,(?=[A-Za-zÁ-ű])/g,', ').replace(/\s+/g,' ').trim();
+  const parts=s.split(/,\s+/);let pack='',name=s;
+  if(parts.length>1){pack=parts.pop();if(parts.length&&PACKW.test(parts[parts.length-1]))pack=parts.pop()+' '+pack;name=parts.join(', ');}
+  pack=pack.toLowerCase().replace(/(\d)\s*(kg|ml|g|l)\b/g,'$1 $2');
+  return{name:casing(name).replace(/ - /g,' – ').replace(/^([a-záéíóöőúüű])/,m=>m.toUpperCase()),pack};
+};
+const TR={
+ 'premium quality evoo, from the kalamata island of greece':'Prémium minőségű extra szűz olívaolaj, Görögország kalamatai vidékéről.',
+ 'naturally preserved, keeps them fresh and crispy.':'Természetesen tartósított, friss és ropogós marad.',
+ 'perfectly combined with salads and pasta.':'Salátákhoz és tésztákhoz is kiváló.',
+ "molino spadoni's iconic flour. for long rising time, up to 18 hours. 5 kg packaging for comfortable everyday use and storage":'A Molino Spadoni emblematikus lisztje, hosszú, akár 18 órás kelesztéshez. Az 5 kg-os kiszerelés kényelmes napi használatra és tárolásra.',
+ 'the original flour for neapolitan pizza approved by the associazione verace pizza napoletana.':'A nápolyi pizza eredeti lisztje, az Associazione Verace Pizza Napoletana jóváhagyásával.',
+ 'grain-based mix enriched with sesame and sunflower seeds: soft wheat flour – type “1” , rye flour, spelt flour, barley flour, whole oat flour, corn flour and rice flour.':'Magvas keverék szezám- és napraforgómaggal: „1” típusú puha búzaliszt, rozsliszt, tönkölyliszt, árpaliszt, teljes kiőrlésű zabliszt, kukoricaliszt és rizsliszt.',
+ 'ideal for making pasta, gnocchi, and pastries.':'Tésztához, gnocchihoz és péksüteményekhez.',
+ 'a mix based on “00” type soft wheat enriched with potato flakes and milk. ideal for a thick, soft, and fragrant pizza, preserved for a longer time.':'„00” típusú puha búzalisztből készült keverék burgonyapehellyel és tejjel. Vastag, puha, illatos pizzához; tovább eltartható.',
+ 'soft wheat flour type "00" and rice flour with leavening agents. just whisk with cold sparkling water, add ice and fry the japanese way.':'„00” típusú puha búza- és rizsliszt kelesztőszerrel. Hideg szódával és jéggel habard fel, és süsd japán módra.',
+ '100% italian tomatoes - peeled, crushed, and slightly reduced. ready-to-use for high quality consistency. 10 kg bag-in-box packaging for fast opening in high volume kitchens.':'100% olasz paradicsom: hámozott, tört, enyhén besűrített. Azonnal használható, egyenletes minőség. A 10 kg-os bag-in-box kiszerelés gyorsan bontható a nagy forgalmú konyhákban.',
+ '100% first-choice italian tomatoes':'100% első osztályú olasz paradicsom.',
+ 'have it as you like - whole or sliced':'Egészben vagy szeletelve, ahogy neked jó.',
+ '100% pistachio':'100% pisztácia.'
+};
+const normK=s=>s.toLowerCase().replace(/\s+/g,' ').trim();
+const num=x=>Number(String(x==null?'':x).replace(/[^\d.]/g,''))||0;
+const parseSheet=rows=>{
+  const out=[];let sec=0,cat='',skip=false;
+  rows.forEach(r=>{
+    const A=String(r[0]==null?'':r[0]).trim(),C=String(r[2]==null?'':r[2]).trim();
+    const m=A.match(/^(\d)(?:st|nd|rd|th)\s+Page/i);
+    if(m){sec=+m[1];cat='';skip=true;return;}
+    if(skip){skip=false;if(/^category/i.test(A)||/^product/i.test(C))return;}
+    if(!C||/^product/i.test(C))return;
+    if(A)cat=A.replace(/\s+/g,' ');
+    out.push({sec,cat,code:String(r[1]==null?'':r[1]).trim(),name:C,comment:String(r[3]==null?'':r[3]).trim(),pre:String(r[4]==null?'':r[4]).trim(),db:num(r[5]),kg:num(r[6])});
+  });
+  return out;
+};
+const build=(e,h,seq,ord)=>{
+  const sec=e.sec===1?'hl':e.sec===3?'buf':'cons';
+  const en=splitName(e.name),hn=h?splitName(h.name):{name:'',pack:''};
+  let badge='',shelfEn='',shelfHu='',descEn='',descHu='',mt=false,c=fix(e.comment||'').replace(/[ \t]+/g,' ');
+  if(/^great price/i.test(c)){badge='Kedvező ár';c='';}
+  else if(/^premium product/i.test(c)){badge='Prémium minőség';c=c.replace(/^premium product\s*[-–:]*\s*/i,'');}
+  const ex=c.match(/(\d+)\s*(day|week)s?\s*expiry/i);
+  if(ex){const n=ex[1],d=/day/i.test(ex[2]);shelfEn=`${n} ${d?'day':'week'}${n>1?'s':''}`;shelfHu=`${n} ${d?'nap':'hét'}`;c='';}
+  if(c){descEn=sent(c);
+    if(h&&h.comment&&h.comment!==e.comment&&/[áéíóöőúüű]/i.test(h.comment))descHu=h.comment;
+    else if(TR[normK(descEn)]){descHu=TR[normK(descEn)];mt=true;}}
+  const U=e.name.toUpperCase();
+  let cat,brand='',story='',size='M';
+  if(sec==='hl'){
+    if(/OLIVE/.test(U)){cat='Olívaolaj és olívabogyó';brand='Siouras';size=/OIL/.test(U)?'XL':'L';story=/OIL/.test(U)?'douzenis':'siouras';}
+    else if(/FLOUR|MIX\b/.test(U)){cat='Professzionális lisztek';brand='Molino Spadoni';story='spadoni';}
+    else{cat='Paradicsomtermékek';brand=/HIGH BRIX/.test(U)?'Steriltom':'';story='steriltom';size='XL';}
+  }else if(sec==='buf'){cat='Friss bivalytermékek';brand='Collebianco';story='collebianco';}
+  else{cat=CATMAP[e.cat.toLowerCase()]||e.cat;brand='Ristoris';story='ristoris';}
+  const mm=e.pre.match(/minimum order\s*(\d+)\s*box\s*-\s*(\d+)/i);
+  return{id:'p'+seq,active:true,order:ord,section:sec,cat,code:e.code,brand,
+    name_hu:hn.name,name_en:en.name,pack_hu:hn.pack,pack_en:en.pack,desc_hu:descHu,desc_en:descEn,mt,
+    price:e.db,unitPrice:e.kg,unit:/\d\s*(ml|l)\b/.test(en.pack)?'l':'kg',pre:/pre-?order/i.test(e.pre),
+    minBox:mm?+mm[1]:0,perBox:mm?+mm[2]:0,shelf_hu:shelfHu,shelf_en:shelfEn,badge,size,imgs:[],main:0,cutout:false,focus:{x:50,y:50},story};
+};
+const buildAll=(en,hu)=>{
+  const used=new Set(),ord={hl:0,cons:0,buf:0};let seq=0;
+  return en.map((e,i)=>{
+    let j=hu.findIndex((x,k)=>!used.has(k)&&e.code&&x.code===e.code&&x.sec===e.sec);
+    if(j<0&&hu[i]&&!used.has(i)&&hu[i].sec===e.sec)j=i;
+    if(j>=0)used.add(j);
+    const s=e.sec===1?'hl':e.sec===3?'buf':'cons';
+    return build(e,j>=0?hu[j]:null,++seq,++ord[s]);
+  });
+};
+const R=(a,b,c,d,e,f,g)=>[a,b,c,d,e,f,g];
+const ENGROWS=[
+ ['1st Page - NEW! PILPEL Deli'],R('Category - just 2nd page','Code - not now','Product ENG','Comments','Pre Order','NET Price Db/Ft','NET Price KG/Ft'),
+ R('','','EXTRA VIRGIN OLIVE OIL - KORONEIKI, 5L TIN','Premium quality EVOO, from the Kalamata island of Greece','',15100,3020),
+ R('','','GREEN WHOLE OLIVES - COLOSSAL size, 2 KG KEG','Naturaly preserved, keeps them fresh and crispy.','',4040,2020),
+ R('','','KALAMATA PITTED OLIVES - BULLETS size, 2 KG KEG','Perfectly combined with salads and pasta.','',4750,2375),
+ R('','CF82','PZ4 - PROFESSIONAL PIZZA FLOUR - Type "00" W325, 5 KG',"MOLINO SPADONI's iconic flour. For long rising time, up to 18 hours.\n5 KG packaking for cofrtable everyday use and storage",'',2725,545),
+ R('','CF133AVPN','Chella Llà - PROFESSIONAL PIZZA FLOUR - Type "0" W250-280, 5 KG','The original flour for Neapolitan pizza approved by the Associazione Verace Pizza Napoletana.','Pre-Order',2825,565),
+ R('','E78M05','7-GRAIN DARK PIZZA FLOUR, 5 KG','Grain-based mix enriched with sesame and sunflower seeds: soft WHEAT flour – type “1” , RYE flour, SPELT flour, BARLEY flour, whole OAT flour, corn flour and rice flour.','Pre-Order',4700,940),
+ R('','CF62N','Gran Mugnaio - PROFESSIONAL PASTA FLOUR - Anticaking Flour Type "00", 5 KG','Ideal for making pasta, gnocchi, and pastries.','Pre-Order',3150,630),
+ R('','E34M05','FOCACCIA FLOUR with Potato Flakes, 5 KG','A mix based on “00” type soft wheat enriched with potato flakes and milk. Ideal for a thick, soft, and fragrant pizza, preserved for a longer time.','Pre-Order',4375,875),
+ R('','E86M05','PROFESSIONAL TEMPURA MIX, 5 KG','Soft wheat flour type "00" and rice flour with leavening agents. Just whisk with cold sparkling water, add ice and fry the Japanese way.','Pre-Order',4375,875),
+ R('','003507','EXTRA FINE TOMATO PULP "HIGH BRIX" 8,5°, 10 KG BAG-IN-BOX','100% Italian tomatoes - Peeled, crushed, and slightly reduced. Ready-to-use for high quality consistency.\n10 KG Bag-in-Box packaging for fast opening in high volume kitchens.','Pre-Order',5620,562),
+ ['2nd Page - Premium Quality Conserves & Ambient Food Products'],R('Category','Code - not now','Product ENG','Comments','Pre Order','NET Price Db/Ft','NET Price KG/Ft'),
+ R('Tomato\nProducts','003554','WHOLE PEELED TOMATOES IN SAUCE, TIN 2.5 KG','100% FIRST-CHOICE ITALIAN TOMATOES','',1525,610),
+ R('','003507','FINE TOMATO PULP, TIN 4.05 KG','100% FIRST-CHOICE ITALIAN TOMATOES','',2349,580),
+ R('','003549','CHOPPED TOMATOES, TIN 2.5 KG','','',1575,630),
+ R('','003564','DOUBLE CONSERTRATED TOMATO PASTE, TIN 800 G','','',940,1175),
+ R('Toppings & Sauce','001522','DRIED TOMATOES, TIN 2.4 KG','HAVE IT AS YOU LIKE - WHOLE OR SLICED','',5280,2200),
+ R('','001517','DRIED TOMATOES IN FILLETS, TIN 780/750 G','','',1785,2380),
+ R('','008122','SAUTEED ARTICHOKES QUARTERS, ALUBAG 2.5/1.7 KG','HAVE IT AS YOU LIKE - WHOLE OR SLICED','',3825,2250),
+ R('','008147','ARTICHOKE SLICES IN OIL, ALUBAG 2.5/1.7 KG','','',3825,2250),
+ R('','012064','GOURMET MAYONNAISE, GLASS JAR 1 L','','',2290,2290),
+ R('','005000','ANCHOVIES IN FILLETS, GLASS JAR 700/400 G','','',4770,11925),
+ R('','011500','"LACRIMELLA" CAPERS IN VINEGAR, GLASS JAR 1.6/1 KG','','',4260,4260),
+ R('','011524','CAPER FRUITS IN VINEGAR, GLASS JAR 530/330 G','','',1749,5300),
+ R('','009028','CARAMELIZED SLICED ONIONS, TIN 800 G','','',2380,2975),
+ R('','006090','BAKED BEANS, TIN 2.5 KG','','',1775,710),
+ R('','009053','GRILLED RED PEPPERS, TIN 4/2.7 KG','','',6345,2350),
+ R('','005549','TUNA IN OLIVE OIL, ALUBAG 1 KG','GREAT PRICE!','',2900,2900),
+ R('','007599','SAUTEED PORCINI MUSHROOMS, BAG 650 ML','','',10660,16400),
+ R('','013000','PESTO GENOESE STYLE, TIN 800 G','','',2320,2900),
+ R('','017014','BALSAMIC VINEGAR SAUCE, BOTTLE 500 G','','',1400,2800),
+ R('Juice,\nVinegar,\nGrains','017035','LEMON JUICE, BOTTLE 1 L','','',920,920),
+ R('','017000','BALSAMIC VINEGAR OF MODENA, KEG 5 L','','',5200,1040),
+ R('','017049','RED WINE VINEGAR, BOTTLE 1 L','','',465,465),
+ R('','017042','WHITE WINE VINEGAR, BOTTLE 1 L','','',480,480),
+ R('','004035','POLENTA EXPRESS, BAG 500 G','','',655,1310),
+ R('','003014','ARBORIO RICE, BAG 1 KG','','',1220,1220),
+ R('Dessert & Baking','099009','PISTACHIO PASTE 100%, BUCKET 1 KG','PREMIUM PRODUCT - 100% PISTACHIO','',15830,15830),
+ R('','014201','RAW PISTACHIO GRAINS, BAG 500 G','','',6365,12730),
+ R('','015591','HAZELNUT SPREAD, BUCKET 3 KG','','',6930,2310),
+ R('','018501','RELEASE OIL SPRAY, CAN 500 ML','','',1530,3060),
+ R('','015010','BLACK AMARENA CHERRIES IN SYRUP, TIN 1.05/0.87 KG','GREAT PRICE!','',3915,4500),
+ ['3rd Page - Fresh Buffalo Dairy Products - from COLLEBIANCO farm'],R('Category','Code - not now','Product ENG','Comments','Pre Order','NET Price Db/Ft','NET Price KG/Ft'),
+ R('','','BURRATA, 125g in Box','10 days expiry','Pre-Order, Minimum order 1 box - 11 Db',890,7120),
+ R('','','MAZZARELLA DI BUFALA, 125g in Box','2 weeks expiry','Pre-Order, Minimum order 1 box - 16 Db',800,6400),
+ R('','','SMOKED MAZZARELLA DI BUFALA, 5 x 50 g in Bag','2 weeks expiry','Pre-Order, Minimum order 1 box - 12 Db',1550,6200),
+ R('','','MAZZARELLA DI BUFALA, 5 x 50 g in Bag','2 weeks expiry','Pre-Order, Minimum order 1 box - 12 Db',1550,6200),
+ R('','','MAZZARELLA DI BUFALA, 250 g in Bag','2 weeks expiry','Pre-Order, Minimum order 1 box - 12 Db',1550,6200),
+ R('','','MAZZARELLA DI BUFALA, 500 g in Bag','2 weeks expiry','Pre-Order, Minimum order 1 box - 6 Db',3050,6100)
+];
+const HUN=['EXTRA SZŰZ OLÍVAOLAJ – KORONEIKI, 5 L','ZÖLD EGÉSZ OLÍVABOGYÓK – COLOSSAL, 2 KG','KALAMATA MAGozott OLÍVABOGYÓK – BULLETS, 2 KG','PZ4 – PROFESSZIONÁLIS PIZZA LISZT – „00” típus, W325, 5 KG','Chella Llà – PROFESSZIONÁLIS PIZZA LISZT – „0” típus, W250–280, 5 KG','7-GRAIN SÖTÉT PIZZA LISZT, 5 KG','Gran Mugnaio – PROFESSZIONÁLIS TÉSZTALISZT – „00” típusú, csomósodásgátló liszt, 5 KG','FOCACCIA-LISZT burgonyapehellyel, 5 KG','PROFESSZIONÁLIS TEMPURA-KEVERÉK, 5 KG','EXTRA FINOM PARADICSOMPÜRÉ „HIGH BRIX” 8,5°, 10 KG BAG-IN-BOX',
+'HÁMOZOTT EGÉSZ PARADICSOM MÁRTÁSBAN, KONZERV, 2,5 KG','FINOM PARADICSOMPÜRÉ ,KONZERV, 4,05 KG','APRÓRA VÁGOTT PARADICSOM, KONZERV, 2,5 KG','KÉTSZERESEN SŰRÍTETT PARADICSOMPASZTA, KONZERV, 800 G','SZÁRÍTOTT PARADICSOM, KONSZERV, 2,4 KG','FILÉZETT SZÁRÍTOTT PARADICSOM, KONSZERV, 780/750 G','PIRÍTOTT ARTICSÓK NEGYEDEK, ALUBAG, 2,5/1,7 KG','OLAJBAN PÁROLT ARTICSÓKA SZELETEK, ALUBAG, 2,5/1,7 KG','GURMÉ MAJONÉZ, ÜVEGES TÁROLÓEDÉNY, 1 L','FILÉZETT SZARDELLA, ÜVEGES,  700/400 G','„LACRIMELLA” KAPRI ECETBEN, ÜVEGES, 1,6/1 KG','KAPRI GYÜMÖLCSÖK ECETBEN, ÜVEGES, 530/330 G','KARAMELLIZÁLT HAGYMA SZELETEK, KONSZERV, 800 G','PARADICSOMOS FEHÉR BAB, KONSZERV, 2,5 KG','GRILLEZETT PIROS PAPRIKA, KONSZERV, 4/2,7 KG','OLÍVAOLAJBAN PÁZIT TONHAL, ALUBAG, 1 KG','PIRÍTOTT PORCINI GOMBA, ALUBAG, 650 ML','GENOVAI STÍLUSÚ PESTO, KONZERV, 800 G','BALZSAMECET KREM, 500 G','CITROMLÉ, 1 L','MODENAI BALZSAMECET, 5 L','VÖRÖSBOZÓTECET, 1 L','FEHÉRBORECET, 1 L','POLENTA EXPRESS, 500 G','ARBORIO RIZS, 1 KG','PISZTÁCIÁSPASZTA 100%, 1 KG','NYERS PISZTÁCIAMAG, 500 G','MOGYORÓKRÉM, 3 KG','SÜTŐOLAJ-SPRAY, 500 ML','FEKETE AMARENA MEGGY SZIRUPBAN, KONZERV, 1,05/0,87 KG',
+'BURRATA, 125 g doboz','MOZZARELLA DI BUFALA, 125 g doboz','FÜSTÖLT MOZZARELLA DI BUFALA, 5 x 50 g csomagolás','MOZZARELLA DI BUFALA, 5 x 50 g csomagolás','MOZZARELLA DI BUFALA, 250 g csomagolás','MOZZARELLA DI BUFALA, 500 g csomagolás'];
+let _k=0;
+const HUROWS=ENGROWS.map(r=>(r.length>2&&r[2]&&!/^Product/i.test(r[2]))?[r[0],r[1],HUN[_k++],r[3],r[4],r[5],r[6]]:r);
+const I=(f,c)=>({src:'img/'+f,cut:c===undefined?'img/cut/'+f.replace(/\.\w+$/,'')+'.png':(c===1?'img/'+f:c)});
+const IMG_SEED={
+ 'h-oil':[I('sio-oil.png',1)],'h-green':[I('sio-halkidiki.jpg',1)],'h-kal':[I('sio-kalamata.jpg',1)],'h-brix':[I('ste-pack.png',1)],
+ CF82:[I('sku-CF82.png',1)],CF133AVPN:[I('sku-CF133AVPN.png',1)],E78M05:[I('sku-E78M05.png',1)],CF62N:[I('sku-CF62N.png',1)],E34M05:[I('sku-E34M05.png',1)],E86M05:[I('sku-E86M05.jpg')],
+ 'b-burrata':[I('col-burrata-pack.jpg'),I('col-burrata.jpg',null)],'b-m125':[I('col-m125-pack.jpg')],'b-smoked':[I('col-smoked-pack.jpg'),I('col-smoked.jpg',null)],
+ 'b-m5':[I('col-m5-pack.jpg'),I('col-m5.jpg',null)],'b-m250':[I('col-m250-pack.jpg'),I('col-m250.jpg',null)],'b-m500':[I('col-m500-pack.jpg'),I('col-m500.jpg',null)],
+ '003564':[I('sku-013564.jpg')],'099009':[I('sku-099009.png',1)]
+};
+['001517','001522','003014','003507','003549','003554','005000','006090','007599','008122','008147','009028','009053','011500','011524','012064','013000','014201','015010','015591','017000','017014','017035','017042','017049','018501'].forEach(c=>{IMG_SEED[c]=[I('sku-'+c+'.jpg')];});
+IMG_SEED['004035']=[I('sku-004035.png')];IMG_SEED['005549']=[I('sku-005549.png')];
+['001517','001522','014201','015010','015591','017000','017014','017035','017042','017049','018501'].forEach(c=>{IMG_SEED[c]=[I('pk-'+c+'.jpg'),...IMG_SEED[c]];});
+IMG_SEED['099009']=[I('pk-099009.png',1),...IMG_SEED['099009']];
+['008122','008147','009028','009053','011500','011524','012064','013000'].forEach(c=>{IMG_SEED[c]=[I('pk-'+c+'.jpg'),...IMG_SEED[c]];});
+[['003014','jpg'],['003507','png'],['003549','png'],['003554','jpg'],['003564','jpg'],['004035','jpg'],['005000','jpg'],['005549','jpg'],['006090','jpg'],['007599','jpg']].forEach(([c,e])=>{IMG_SEED[c]=[I('pk-'+c+'.'+e),...(IMG_SEED[c]||[])];});
+const MOOD_SRC={'h-oil':'img/ill/m-oil.jpg','h-brix':'img/ill/m-pizza.jpg','h-green':'img/ill/m-green.jpg','h-kal':'img/ill/m-kalamata.jpg',CF82:'img/ill/m-flour.jpg'};
+const MOOD={'h-oil':['m-oil.jpg'],'h-green':['m-green.jpg','m-green2.jpg'],'h-kal':['m-kalamata.jpg'],'h-brix':['m-pizza.jpg'],CF82:['m-flour.jpg']};
+Object.keys(MOOD).forEach(k=>{IMG_SEED[k]=[...(IMG_SEED[k]||[]),...MOOD[k].map(f=>I('ill/'+f,null))].slice(0,3);});
+const imgKey=p=>{
+  const U=(p.name_en+' '+p.pack_en).toUpperCase().replace(/\s/g,'');
+  if(p.section==='buf'){if(/BURRATA/.test(U))return'b-burrata';if(/SMOKED/.test(U))return'b-smoked';if(/5X50/.test(U))return'b-m5';if(/125G/.test(U))return'b-m125';if(/250G/.test(U))return'b-m250';if(/500G/.test(U))return'b-m500';return null;}
+  if(p.section==='hl'){if(/HIGHBRIX/.test(U))return'h-brix';if(/OLIVEOIL/.test(U))return'h-oil';if(/GREEN/.test(U))return'h-green';if(/KALAMATA/.test(U))return'h-kal';return p.code;}
+  return p.code;
+};
+const attachImgs=list=>list.map(p=>{const e=IMG_SEED[imgKey(p)];return e?{...p,imgs:e.map(x=>({...x})),main:0,cutout:!!e[0].cut,focus:{x:50,y:imgKey(p)==='h-brix'||imgKey(p)==='CF82'?58:50}}:p;});
+const SEED=attachImgs(buildAll(parseSheet(ENGROWS),parseSheet(HUROWS)));
+const STORY_KEYS=['pilpel','michael','siouras','douzenis','spadoni','steriltom','ristoris','collebianco'];
+const SEED_STORIES={
+ pilpel:{eyebrow_hu:'Pilpel Hungary · 2021 óta',eyebrow_en:'Pilpel Hungary · since 2021',title_hu:'Friss alapanyag, *közvetlenül* a konyhádba',title_en:'Fresh produce, straight to *your kitchen*',text_hu:'A Pilpel Hungary friss zöldség-gyümölcs nagykereskedés éttermeknek. Saját termelő-hálózatunkból, részben saját farmjainkról és közvetlen importból szállítunk több mint 700 féle prémium terméket Budapest és a Balaton környéke éttermeinek, hétfőtől szombatig. A Deli ennek a kínálatnak a tartós, olasz-mediterrán vonala.',text_en:'Pilpel Hungary is a fresh fruit and vegetable wholesaler for restaurants. From our own producer network, partly our own farms, and direct imports, we deliver more than 700 premium products to restaurants in Budapest and around Lake Balaton, Monday to Saturday. Deli is the shelf-stable, Italian-Mediterranean line of that range.',quote_hu:'',quote_en:'',img:'',link:''},
+ michael:{eyebrow_hu:'Michael Levy Reich séf · A Deli története',eyebrow_en:'Chef Michael Levy Reich · Why Deli exists',title_hu:'Miért indult a *Deli*?',title_en:'Why did we start *Deli*?',text_hu:'Magyarországon nem volt séf-válogatású, HoReCa-mennyiségű, könnyen bontható tartós alapanyag-kínálat. A Deli ezt pótolja. A termékeket Michael Levy Reich séf válogatja, a gyártóktól közvetlenül hozzuk, konyhai kiszerelésben.',text_en:'Hungary had no chef-selected, HoReCa-volume range of shelf-stable ingredients that is easy to open and use. Deli fills that gap. Chef Michael Levy Reich selects every product; we buy direct from the producers, in kitchen-ready sizes.',quote_hu:'',quote_en:'',img:'',link:'cons'},
+ siouras:{eyebrow_hu:'Görögország · Olívabogyó és olívaolaj',eyebrow_en:'Greece · Olives and olive oil',title_hu:'Siouras: *olíva* a konyhának',title_en:'Siouras: *olives* for the kitchen',text_hu:'Görög olívabogyó- és olívaolaj-márka. Koroneiki extra szűz olívaolaj 5 literes kannában, zöld Colossal és Kalamata Bullets olívabogyó 2 kilós hordóban. Az olívabogyó természetesen tartósított, ezért friss és ropogós marad.',text_en:'A Greek olive and olive oil brand. Koroneiki extra virgin olive oil in 5 L tins, green Colossal and Kalamata Bullets olives in 2 kg kegs. The olives are naturally preserved, so they stay fresh and crisp.',quote_hu:'',quote_en:'',img:'',link:'hl'},
+ douzenis:{eyebrow_hu:'Görögország · Olívaolaj-termelő',eyebrow_en:'Greece · Olive oil producer',title_hu:'Douzenis: az *olaj* mögött',title_en:'Douzenis: behind the *oil*',text_hu:'Ő a Koroneiki extra szűz olívaolaj termelője. Prémium minőségű olaj, 5 literes kannában, nagy forgalmú konyhákra méretezve.',text_en:'The producer of the Koroneiki extra virgin olive oil. Premium quality oil in 5 L tins, sized for high-volume kitchens.',quote_hu:'',quote_en:'',img:'',link:'hl'},
+ spadoni:{eyebrow_hu:'Olaszország · Lisztmalom',eyebrow_en:'Italy · Flour mill',title_hu:'Molino Spadoni: *liszt* szakácsoknak',title_en:'Molino Spadoni: *flour* for cooks',text_hu:'Lisztmalom. Emblematikus lisztje a PZ4 pizzaliszt, hosszú, akár 18 órás kelesztésre. A Deli professzionális lisztjei 5 kilós kiszerelésben kaphatók: pizza, tészta, focaccia és tempura.',text_en:'A flour mill. Its signature is the PZ4 pizza flour, made for long rises of up to 18 hours. The Deli professional flours come in 5 kg packs: pizza, pasta, focaccia and tempura.',quote_hu:'',quote_en:'',img:'',link:'hl'},
+ steriltom:{eyebrow_hu:'Olaszország · Paradicsompüré',eyebrow_en:'Italy · Tomato pulp',title_hu:'Steriltom: *High Brix* paradicsompüré',title_en:'Steriltom: *High Brix* tomato pulp',text_hu:'Extra finom paradicsompüré, 8,5°, 10 kilós bag-in-boxban. 100% olasz paradicsom: hámozott, tört, enyhén besűrített. Gyorsan bontható, egyenletes minőség a nagy forgalmú konyhákban.',text_en:'Extra fine tomato pulp, 8.5°, in 10 kg bag-in-box. 100% Italian tomatoes: peeled, crushed, slightly reduced. Quick to open, consistent quality for high-volume kitchens.',quote_hu:'',quote_en:'',img:'',link:'hl'},
+ ristoris:{eyebrow_hu:'Olaszország · Prémium konzervek',eyebrow_en:'Italy · Premium preserves',title_hu:'Ristoris: *konzerv*, ami számít',title_en:'Ristoris: preserves that *matter*',text_hu:'Paradicsomtermékek, szószok, zöldségek és desszertalapanyagok konyhai kiszerelésben: konzerv, alubag és üveg. A 100% olasz, első osztályú paradicsomtól a pisztáciapasztáig.',text_en:'Tomato products, sauces, vegetables and dessert ingredients in kitchen sizes: tin, alubag and glass. From 100% first-choice Italian tomatoes to pistachio paste.',quote_hu:'',quote_en:'',img:'',link:'cons'},
+ collebianco:{eyebrow_hu:'Olaszország · Bivalyfarm',eyebrow_en:'Italy · Buffalo farm',title_hu:'Collebianco: *bivaly*, frissen',title_en:'Collebianco: *buffalo*, fresh',text_hu:'Bivalyfarm: burrata, mozzarella di bufala és füstölt mozzarella. Csak előrendelésre, legalább egy héttel a szállítás előtt. Eltarthatóság: burrata 10 nap, mozzarella 2 hét.',text_en:'A buffalo farm: burrata, mozzarella di bufala and smoked mozzarella. Pre-order only, at least a week before delivery. Shelf life: burrata 10 days, mozzarella 2 weeks.',quote_hu:'',quote_en:'',img:'img/col-m5.jpg',link:'buf'}
+};
+const ILL={cover:'img/ill/cover.jpg',about:'img/ill/crates.jpg',michael:'img/ill/michael.jpg',hl:'img/ill/highlights.jpg',cons:'img/ill/pantry.jpg',buf:'img/ill/dairy.jpg',contact:'img/ill/m-kitchen.jpg',cat:{'Desszert és sütés':'img/ill/dessert.jpg','Citromlé, ecetek, gabonák':'img/ill/vinegars.jpg'}};
+const ibg=(u,css)=>`${css};background:url("${u}") center/cover no-repeat`;
+const STORY_IMG={pilpel:ILL.about,michael:'img/ill/mi-sack.png',siouras:'img/ill/grove.png',douzenis:'img/ill/oil.png',spadoni:'img/ill/mi-whisk.png',steriltom:'img/ill/steriltom.jpg',ristoris:'img/ill/mi-capers.png',collebianco:'img/ill/pasture.jpg'};
+const STORY_POS={michael:'50% 18%',spadoni:'50% 26%',ristoris:'50% 24%'};
+Object.keys(STORY_IMG).forEach(k=>{if(SEED_STORIES[k])SEED_STORIES[k].img=STORY_IMG[k];});
+const SEED_SET={month:'2026-10',logoDark:'',logoLight:'',shop:'https://pilpelhungary.com',orders:'sales@pilpelhungary.com',support:'michael.reich@pilpelhungary.com',web:'pilpelhungary.com',tag_hu:'Eggyel kevesebb beszállító.',tag_en:'One less supplier.',phone_en:'Michael · +36 20 381 0194',phone_hu1:'Daniel · +36 30 789 0967',phone_hu2:'David · +36 70 604 3197',instagram:'https://www.instagram.com/pilpel_hungary',facebook:'https://www.facebook.com/pilpelhungary',address:'1239 Budapest, Nagykőrösi út 353.'};
+const SEED_PLACE={cover:['pilpel','michael'],hl:['siouras','douzenis','spadoni','steriltom'],cons:['ristoris'],buf:['collebianco'],list:[]};
+const S={
+ modeDigital:['Digitális','Digital'],modePrint:['PDF / nyomtatás','PDF / print'],modeAdmin:['Admin','Admin'],
+ forChefs:['Séfeknek','For chefs'],preorder:['Előrendelés','Pre-order'],
+ bufBanner:['Csak előrendelésre. Legalább egy héttel a szállítás előtt rendeld meg, minimum egy doboz!','Pre-order only. Order at least one week before delivery, minimum one box!'],
+ shelf:['Eltarthatóság','Shelf life'],minOrder:['Minimum rendelés','Minimum order'],
+ relatedProducts:['Kapcsolódó termékek','Related products'],thCode:['Kód','Code'],thProduct:['Termék','Product'],thPack:['Kiszerelés','Pack'],thDb:['Nettó / db','Net / pc'],thUnit:['Nettó / kg vagy l','Net / kg or L'],
+ order:['Rendelés','Orders'],support:['Ügyfélszolgálat','Support'],orderNow:['Rendelj most!','Order now!'],
+ savePdf:['PDF mentése (A4)','Save PDF (A4)'],lite:['Light: intro + árlista','Light: intro + price list'],copyLink:['Megosztható link másolása','Copy share link'],
+ bulkUp:['Tömeges képfeltöltés (fájlnév = kód)','Bulk image upload (filename = code)'],
+ descHu:['Leírás HU','Description HU'],descEn:['Leírás EN','Description EN'],mtLabel:['Gépi fordítás, ellenőrizendő','Machine translation, needs review'],storyRef:['Sztori hivatkozás','Story reference'],
+ images:['Képek (max 3, kattints a fő képre)','Images (max 3, click to set main)'],remove:['Törlés','Remove'],dropImg:['Húzd ide vagy kattints','Drop or click'],
+ cutout:['Háttéreltávolítás (fehér packshot)','Remove background (white packshot)'],focus:['Fókuszpont: kattints a képre','Focus point: click the image'],
+ layoutHl:['Kiemelt termékek: húzással rendezd, méret: S / M / L / XL','Highlights: drag to reorder, size S / M / L / XL'],
+ layoutHint:['12 oszlopos rács: S = 3, M = 4, L = 6, XL = 12 oszlop. A digitális nézetben tableten 6, mobilon 1 oszlop.','12-column grid: S = 3, M = 4, L = 6, XL = 12. Digital view uses 6 columns on tablet, 1 on mobile.'],
+ storySlots:['Sztori blokkok elhelyezése','Story block placement'],
+ link:['Kapcsolt termékek (szekció)','Linked products (section)'],storyImg:['Hangulatkép feltöltése','Upload mood image'],
+ logoDark:['Logó sötét háttérre (PNG/SVG)','Logo for dark (PNG/SVG)'],logoLight:['Logó világos háttérre (PNG/SVG)','Logo for light (PNG/SVG)'],resetLogo:['Alapértelmezett logók','Default logos'],
+ importTitle:['Excel import','Excel import'],importHint:['PILPEL Deli Master File (.xlsx, „Catalog - ENG” és „Catalog - HU” fül), CSV, vagy a tiszta sablon. A meglévő képek, méretek, sorrend és sztori-hozzárendelések megmaradnak (kód, ennek hiányában név alapján).','PILPEL Deli Master File (.xlsx, "Catalog - ENG" and "Catalog - HU" sheets), CSV, or the clean template. Existing images, sizes, order and story links are kept (matched by code, else by name).'],
+ pickFile:['Fájl kiválasztása','Choose file'],dlTemplate:['Sablon letöltése (CSV)','Download template (CSV)'],resetSeed:['Kezdő adatok visszaállítása','Reset to seed data'],apply:['Import alkalmazása','Apply import'],discard:['Elvetés','Discard'],
+ address:['Cím','Address'],exportTitle:['Export','Export'],pdfFull:['Teljes PDF','Full PDF'],pdfLite:['Light PDF (intro + árlista)','Light PDF (intro + price list)'],exportHint:['A PDF a böngésző nyomtatási párbeszédéből készül: válaszd a „Mentés PDF-ként” opciót, margó nélkül.','The PDF is produced via the browser print dialog: choose "Save as PDF", no margins.']
+};
+const tabDefs=[['products',['Termékek','Products']],['layout',['Layout','Layout']],['stories',['Sztorik','Stories']],['settings',['Beállítások','Settings']],['import',['Import','Import']],['export',['Export','Export']]];
+const SECLAB={hl:['Kiemelt','Highlight'],cons:['Konzerv','Preserves'],buf:['Bivaly','Buffalo']};
+const noDef=e=>e.preventDefault();
+const loadImg=src=>new Promise((res,rej)=>{const i=new Image();i.onload=()=>res(i);i.onerror=rej;i.src=src;});
+const readURL=f=>new Promise(res=>{const r=new FileReader();r.onload=()=>res(r.result);r.readAsDataURL(f);});
+const shrink=async f=>{
+  if(/svg/.test(f.type))return readURL(f);
+  const im=await loadImg(await readURL(f));const k=Math.min(1,1200/Math.max(im.width,im.height));
+  const c=document.createElement('canvas');c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);c.getContext('2d').drawImage(im,0,0,c.width,c.height);
+  return c.toDataURL(f.type==='image/png'?'image/png':'image/jpeg',.86);
+};
+const makeCut=async src=>{
+  const im=await loadImg(src);const k=Math.min(1,900/Math.max(im.width,im.height));
+  const w=Math.round(im.width*k),h=Math.round(im.height*k);
+  const c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d');x.drawImage(im,0,0,w,h);
+  const d=x.getImageData(0,0,w,h),a=d.data,seen=new Uint8Array(w*h),st=[];
+  const white=i=>a[i*4]>228&&a[i*4+1]>228&&a[i*4+2]>228;
+  for(let i=0;i<w;i++){st.push(i,(h-1)*w+i);}for(let j=0;j<h;j++){st.push(j*w,j*w+w-1);}
+  while(st.length){const i=st.pop();if(seen[i]||!white(i))continue;seen[i]=1;a[i*4+3]=0;const px=i%w;
+    if(px>0)st.push(i-1);if(px<w-1)st.push(i+1);if(i>=w)st.push(i-w);if(i<w*(h-1))st.push(i+w);}
+  x.putImageData(d,0,0);return c.toDataURL('image/png');
+};
+const csvParse=t=>{
+  t=t.replace(/^\uFEFF/,'');const first=t.split('\n')[0];
+  const dl=[';','\t',','].map(d=>[d,first.split(d).length]).sort((a,b)=>b[1]-a[1])[0][0];
+  const rows=[];let row=[],cur='',q=false;
+  for(let i=0;i<t.length;i++){const ch=t[i];
+    if(q){if(ch==='"'){if(t[i+1]==='"'){cur+='"';i++;}else q=false;}else cur+=ch;}
+    else if(ch==='"')q=true;else if(ch===dl){row.push(cur);cur='';}
+    else if(ch==='\n'){row.push(cur);rows.push(row);row=[];cur='';}else if(ch!=='\r')cur+=ch;}
+  if(cur||row.length){row.push(cur);rows.push(row);}return rows;
+};
+const csvOut=rows=>'\uFEFF'+rows.map(r=>r.map(v=>{v=String(v==null?'':v);return /[;"\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v;}).join(';')).join('\r\n');
+const unzipXlsx=async buf=>{
+  const u=new Uint8Array(buf),dv=new DataView(u.buffer);let e=u.length-22;while(dv.getUint32(e,true)!==0x06054b50)e--;
+  const n=dv.getUint16(e+10,true);let p=dv.getUint32(e+16,true);const files={};
+  for(let i=0;i<n;i++){const method=dv.getUint16(p+10,true),csz=dv.getUint32(p+20,true),nl=dv.getUint16(p+28,true),el=dv.getUint16(p+30,true),cl=dv.getUint16(p+32,true),lo=dv.getUint32(p+42,true);
+    const name=new TextDecoder().decode(u.slice(p+46,p+46+nl));const lnl=dv.getUint16(lo+26,true),lel=dv.getUint16(lo+28,true);
+    files[name]={method,data:u.slice(lo+30+lnl+lel,lo+30+lnl+lel+csz)};p+=46+nl+el+cl;}
+  const get=async nm=>{const f=files[nm];if(!f)return null;if(f.method===0)return new TextDecoder().decode(f.data);
+    const ds=new DecompressionStream('deflate-raw'),w=ds.writable.getWriter();w.write(f.data);w.close();return new TextDecoder().decode(await new Response(ds.readable).arrayBuffer());};
+  const dec=s=>s.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&quot;/g,'"').replace(/&apos;/g,"'").replace(/&amp;/g,'&');
+  const ss=await get('xl/sharedStrings.xml');
+  const strs=ss?[...ss.matchAll(/<si>([\s\S]*?)<\/si>/g)].map(m=>dec([...m[1].matchAll(/<t[^>]*>([\s\S]*?)<\/t>/g)].map(x=>x[1]).join(''))):[];
+  const wb=await get('xl/workbook.xml');const names=[...wb.matchAll(/<sheet [^>]*name="([^"]+)"/g)].map(m=>dec(m[1]));
+  const sheets={};
+  for(let i=0;i<names.length;i++){const x=await get(`xl/worksheets/sheet${i+1}.xml`);if(!x)continue;const rows=[];
+    [...x.matchAll(/<row [^>]*>([\s\S]*?)<\/row>/g)].forEach(rm=>{const row=[];
+      [...rm[1].matchAll(/<c r="([A-Z]+)(\d+)"([^>]*?)(?:\/>|>([\s\S]*?)<\/c>)/g)].forEach(c=>{
+        let ci=0;for(const ch of c[1])ci=ci*26+ch.charCodeAt(0)-64;ci--;
+        const body=c[4]||'',v=body.match(/<v>([\s\S]*?)<\/v>/),is=body.match(/<t[^>]*>([\s\S]*?)<\/t>/);
+        row[ci]=v?(/t="s"/.test(c[3])?strs[+v[1]]:dec(v[1])):(is?dec(is[1]):'');});
+      for(let k=0;k<7;k++)if(row[k]==null)row[k]='';rows[+rm[0].match(/ r="(\d+)"/)[1]-1]=row;});
+    sheets[names[i]]=Array.from(rows,r=>r||[]);}
+  return sheets;
+};
+const TCOLS=[['id','id'],['active','aktív'],['order','sorrend'],['section','szekció'],['cat','kategória'],['code','kód'],['brand','gyártó/márka'],['name_hu','név_hu'],['name_en','név_en'],['pack_hu','kiszerelés_hu'],['pack_en','kiszerelés_en'],['desc_hu','leírás_hu'],['desc_en','leírás_en'],['price','ár_db'],['unitPrice','ár_egység'],['unit','egység'],['pre','előrendelés'],['minBox','min_rendelés_doboz'],['perBox','db_per_doboz'],['shelf_hu','eltarthatóság'],['shelf_en','eltarthatóság_en'],['badge','badge'],['size','kártyaméret'],['imgs','képek'],['story','sztori_ref']];
+const SECIN={'kiemelt':'hl','konzerv':'cons','bivaly':'buf','hl':'hl','cons':'cons','buf':'buf'};
+const parseTemplate=rows=>{
+  const head=rows[0].map(h=>String(h).trim().toLowerCase()),idx={};TCOLS.forEach(([f,h])=>{idx[f]=head.indexOf(h);});
+  return rows.slice(1).filter(r=>r.some(x=>String(x).trim())).map((r,i)=>{
+    const g=f=>idx[f]>=0?String(r[idx[f]]==null?'':r[idx[f]]).trim():'';const yn=f=>/^(igen|yes|true|1)$/i.test(g(f));
+    return{id:g('id')||'t'+(i+1),active:g('active')===''||yn('active'),order:num(g('order'))||i+1,section:SECIN[g('section').toLowerCase()]||'cons',cat:g('cat'),code:g('code'),brand:g('brand'),
+      name_hu:g('name_hu'),name_en:g('name_en'),pack_hu:g('pack_hu'),pack_en:g('pack_en'),desc_hu:g('desc_hu'),desc_en:g('desc_en'),mt:false,price:num(g('price')),unitPrice:num(g('unitPrice')),unit:g('unit')==='l'?'l':'kg',
+      pre:yn('pre'),minBox:num(g('minBox')),perBox:num(g('perBox')),shelf_hu:g('shelf_hu'),shelf_en:g('shelf_en'),badge:g('badge')==='nincs'?'':g('badge'),size:g('size')||'M',imgs:[],main:0,cutout:false,focus:{x:50,y:50},story:g('story')};});
+};
+const pkey=p=>p.code?p.code+'|'+normK(p.pack_en||''):'n|'+normK(p.name_en||p.name_hu);
+const DIFF=['name_en','name_hu','pack_en','pack_hu','desc_en','price','unitPrice','badge','unit','pre','minBox','perBox','shelf_en','cat'];
+const KEEP=['order','size','imgs','main','cutout','focus','active','brand','story'];
+
+class Component extends DCLogic {
+  state={mode:'digital',tab:'products',lang:'hu',w:1200,h:900,themes:{digital:'dark',print:'light'},pageIdx:0,dir:'fwd',products:SEED,settings:SEED_SET,stories:SEED_STORIES,place:SEED_PLACE,selId:'',filt:{sec:'',cat:''},imp:null,lite:false,selStory:'michael',toast:''};
+  componentDidMount(){
+    try{const q=new URLSearchParams(location.search).get('view');if(q==='print'||q==='admin')this.setState({mode:q});
+      const raw=localStorage.getItem('pilpel-deli-v12');if(raw){const d=JSON.parse(raw);this.setState({products:d.products||SEED,settings:{...SEED_SET,...d.settings},stories:{...SEED_STORIES,...(d.stories||{})},place:d.place?(JSON.stringify(d.place).includes('pilpel')?d.place:{...d.place,cover:['pilpel',...(d.place.cover||[])]}):SEED_PLACE,lang:d.lang||'hu'});}}catch(e){}
+    this.onScr=()=>{const v=window.scrollY>300;if(v!==this.state.scrolled)this.setState({scrolled:v});};window.addEventListener('scroll',this.onScr,{passive:true});
+    this.onRes=()=>this.setState({w:window.innerWidth,h:window.innerHeight});this.onRes();window.addEventListener('resize',this.onRes);this.onKey=e=>{if(this.state.mode==='print'&&(e.key==='ArrowRight'||e.key==='ArrowLeft'))this.nav(e.key==='ArrowRight'?1:-1);};window.addEventListener('keydown',this.onKey);
+  }
+  componentWillUnmount(){window.removeEventListener('resize',this.onRes);window.removeEventListener('keydown',this.onKey);window.removeEventListener('scroll',this.onScr);}
+  componentDidUpdate(){
+    const s=this.state,pv=this._pv;this._pv={products:s.products,settings:s.settings,stories:s.stories,place:s.place,lang:s.lang};
+    if(!pv||(pv.products===s.products&&pv.settings===s.settings&&pv.stories===s.stories&&pv.place===s.place&&pv.lang===s.lang))return;
+    clearTimeout(this._sv);this._sv=setTimeout(()=>{
+      const put=d=>localStorage.setItem('pilpel-deli-v12',JSON.stringify(d));
+      try{put({products:s.products,settings:s.settings,stories:s.stories,place:s.place,lang:s.lang});}
+      catch(e){try{put({products:s.products.map(p=>({...p,imgs:[]})),settings:{...s.settings,logoDark:'',logoLight:''},stories:s.stories,place:s.place,lang:s.lang});this.say('Képek nem mentődtek (tárhely)');}catch(e2){}}
+    },400);
+  }
+  say(t){this.setState({toast:t});clearTimeout(this._t);this._t=setTimeout(()=>this.setState({toast:''}),3200);}
+  upd=(id,patch)=>this.setState(s=>({products:s.products.map(p=>p.id===id?{...p,...patch}:p)}));
+  setMode=e=>this.setState({mode:e.currentTarget.dataset.id});
+  setTheme=e=>{const id=e.currentTarget.dataset.id;this.setState(s=>({themes:{...s.themes,[s.mode==='print'?'print':'digital']:id}}));};
+  go=e=>this.nav(e.currentTarget.dataset.d==='next'?1:-1);
+  nav(dir){const N=this._N||1,dbl=this._dbl;this.setState(s=>{const cur=Math.min(s.pageIdx,N-1),start=dbl?(cur===0?0:(cur%2===1?cur:cur-1)):cur;
+    const nx=dir>0?(dbl?(start===0?1:start+2):start+1):(dbl?(start<=1?0:start-2):start-1);if(nx<0||nx>=N||nx===start)return null;return{pageIdx:nx,dir:dir>0?'fwd':'back'};});}
+  setLang=e=>this.setState({lang:e.currentTarget.dataset.id});
+  setTab=e=>this.setState({tab:e.currentTarget.dataset.id});
+  goAnchor=e=>{const el=document.getElementById(e.currentTarget.dataset.id);if(el)window.scrollTo({top:el.getBoundingClientRect().top+window.scrollY-70,behavior:'smooth'});};
+  onCell=e=>{const d=e.target.dataset;let v=e.target.value;if(d.kind==='check')v=e.target.checked;else if(d.kind==='num')v=Number(v)||0;
+    const patch={[d.f]:v};if(d.f==='desc_hu')patch.mt=false;this.upd(d.id,patch);};
+  selRow=e=>{if(e.target.tagName==='INPUT'||e.target.tagName==='SELECT')return;this.setState({selId:e.currentTarget.dataset.id});};
+  onFilt=e=>{const f=e.target.dataset.f,v=e.target.value;this.setState(s=>({filt:{...s.filt,[f]:v}}));};
+  onSet=e=>{const f=e.target.dataset.f,v=e.target.value;this.setState(s=>({settings:{...s.settings,[f]:v}}));};
+  onLogo=async e=>{const f=e.target.files[0],k=e.target.dataset.f;if(!f)return;const u=await readURL(f);this.setState(s=>({settings:{...s.settings,[k]:u}}));};
+  resetLogos=()=>this.setState(s=>({settings:{...s.settings,logoDark:'',logoLight:''}}));
+  selStory=e=>this.setState({selStory:e.currentTarget.dataset.id});
+  onStory=e=>{const f=e.target.dataset.f,v=e.target.value;this.setState(s=>({stories:{...s.stories,[s.selStory]:{...s.stories[s.selStory],[f]:v}}}));};
+  onStoryImg=async e=>{const f=e.target.files[0];if(!f)return;const u=await shrink(f);this.setState(s=>({stories:{...s.stories,[s.selStory]:{...s.stories[s.selStory],img:u}}}));};
+  async addFiles(id,files){
+    const arr=[...files].filter(f=>f.type.startsWith('image/'));const out=[];
+    for(const f of arr){const src=await shrink(f);const p=this.state.products.find(x=>x.id===id);out.push({src,cut:(p&&p.cutout)?await makeCut(src):null});}
+    this.setState(s=>({products:s.products.map(p=>p.id===id?{...p,imgs:[...p.imgs,...out].slice(0,3)}:p)}));
+  }
+  onPickImg=e=>{this.addFiles(this.state.selId,e.target.files);};
+  onDropImg=e=>{e.preventDefault();this.addFiles(e.currentTarget.dataset.pid,e.dataTransfer.files);};
+  onBulk=async e=>{
+    const files=[...e.target.files];let ok=0,miss=0;
+    for(const f of files){const stem=f.name.replace(/\.[^.]+$/,'').split(/[_\-\s]/)[0].toLowerCase();
+      const p=this.state.products.find(x=>x.code&&x.code.toLowerCase()===stem);
+      if(p){await this.addFiles(p.id,[f]);ok++;}else miss++;}
+    this.say(`${ok} kép párosítva, ${miss} nem található kód alapján`);
+  };
+  setMain=e=>{this.upd(this.state.selId,{main:+e.currentTarget.dataset.id});};
+  delImg=e=>{const i=+e.currentTarget.dataset.id;const p=this.state.products.find(x=>x.id===this.state.selId);this.upd(p.id,{imgs:p.imgs.filter((_,k)=>k!==i),main:0});};
+  toggleCut=async()=>{const p=this.state.products.find(x=>x.id===this.state.selId);const on=!p.cutout;this.upd(p.id,{cutout:on});
+    if(on){const imgs=await Promise.all(p.imgs.map(async im=>im.cut?im:{...im,cut:await makeCut(im.src)}));this.upd(p.id,{imgs});}};
+  setFocus=e=>{const r=e.currentTarget.getBoundingClientRect();this.upd(e.currentTarget.dataset.pid,{focus:{x:Math.round((e.clientX-r.left)/r.width*100),y:Math.round((e.clientY-r.top)/r.height*100)}});};
+  noDef=noDef;
+  dragStart=e=>{this.dragId=e.currentTarget.dataset.id;};
+  dropOn=e=>{e.preventDefault();const dst=e.currentTarget.dataset.id,src=this.dragId;if(!src||src===dst)return;
+    this.setState(s=>{const hl=s.products.filter(p=>p.section==='hl').sort((a,b)=>a.order-b.order).map(p=>p.id);
+      hl.splice(hl.indexOf(src),1);hl.splice(hl.indexOf(dst),0,src);
+      return{products:s.products.map(p=>hl.includes(p.id)?{...p,order:hl.indexOf(p.id)+1}:p)};});};
+  setSize=e=>this.upd(e.currentTarget.dataset.id,{size:e.currentTarget.dataset.sz});
+  onPlace=e=>{const d=e.currentTarget.dataset,v=e.target.value;this.setState(s=>{let l=[...(s.place[d.slot]||[])];
+    if(d.act==='add'){if(!v)return null;l.push(v);}
+    else{const i=l.indexOf(d.sid);if(d.act==='del')l.splice(i,1);else{const j=d.act==='up'?i-1:i+1;if(j<0||j>=l.length)return null;[l[i],l[j]]=[l[j],l[i]];}}
+    return{place:{...s.place,[d.slot]:l}};});};
+  doPrint=()=>window.print();
+  toggleLite=()=>this.setState(s=>({lite:!s.lite,pageIdx:0}));
+  exportFull=()=>this.setState({mode:'print',lite:false},()=>setTimeout(()=>window.print(),400));
+  exportLite=()=>this.setState({mode:'print',lite:true},()=>setTimeout(()=>window.print(),400));
+  copyLink=()=>{const u=location.href.split('?')[0].split('#')[0]+'?view=digital';try{navigator.clipboard.writeText(u);}catch(e){}this.say(this.state.lang==='hu'?'Link másolva':'Link copied');};
+  resetAll=()=>{this.setState({products:SEED,settings:SEED_SET,stories:SEED_STORIES,place:SEED_PLACE});this.say('Kezdő adatok visszaállítva');};
+  dlTemplate=()=>{
+    const rows=[TCOLS.map(c=>c[1])];
+    this.state.products.forEach(p=>rows.push(TCOLS.map(([f])=>f==='active'||f==='pre'?(p[f]?'igen':'nem'):f==='section'?{hl:'kiemelt',cons:'konzerv',buf:'bivaly'}[p.section]:f==='imgs'?p.imgs.length:f==='badge'?(p.badge||'nincs'):p[f])));
+    const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csvOut(rows)],{type:'text/csv'}));a.download='pilpel-deli-sablon.csv';a.click();
+  };
+  onImport=async e=>{
+    const f=e.target.files[0];if(!f)return;e.target.value='';fixc.n=0;
+    try{
+      let inc;
+      if(/\.xlsx$/i.test(f.name)){const sh=await unzipXlsx(await f.arrayBuffer());const ns=Object.keys(sh);
+        const en=sh[ns.find(n=>/eng/i.test(n))||ns[0]],hu=sh[ns.find(n=>/\bhu\b/i.test(n))||ns[1]];
+        inc=buildAll(parseSheet(en),hu?parseSheet(hu):[]);}
+      else{const rows=csvParse(await f.text());
+        if(rows[0].map(x=>String(x).trim().toLowerCase()).includes('név_hu'))inc=parseTemplate(rows);
+        else inc=buildAll(parseSheet(rows),[]);}
+      this.setState({imp:this.diff(inc)});
+    }catch(err){this.say('Import hiba: '+err.message);}
+  };
+  diff(inc){
+    const old=this.state.products,used=new Set(),lines=[],merged=[];
+    let nNew=0,nMod=0,nPrice=0,nMissTr=0,codes={};
+    inc.forEach(n=>{
+      let o=old.find(x=>!used.has(x.id)&&pkey(x)===pkey(n))||old.find(x=>!used.has(x.id)&&normK(x.name_en)===normK(n.name_en));
+      if(n.code)codes[n.code]=(codes[n.code]||0)+1;
+      if(!n.name_hu||(n.desc_en&&!n.desc_hu)){nMissTr++;lines.push({k:'missing',kind:'FORDÍTÁS',name:n.name_en,detail:!n.name_hu?'hiányzó HU név':'hiányzó HU leírás'});}
+      if(o){used.add(o.id);const ch=DIFF.filter(k=>String(o[k]==null?'':o[k])!==String(n[k]==null?'':n[k]));
+        const m={...o};DIFF.concat(['desc_hu','mt','shelf_hu','section','code']).forEach(k=>{if(k==='desc_hu'&&!n.desc_hu)return;m[k]=n[k];});
+        merged.push(m);
+        if(ch.includes('price')||ch.includes('unitPrice')){nPrice++;lines.push({k:'price',kind:'ÁR',name:o.name_en,detail:`${fmt(o.price)} → ${fmt(n.price)} Ft/db · ${fmt(o.unitPrice)} → ${fmt(n.unitPrice)}`});}
+        const oth=ch.filter(k=>k!=='price'&&k!=='unitPrice');
+        if(oth.length){nMod++;lines.push({k:'mod',kind:'MÓDOSULT',name:o.name_en,detail:oth.join(', ')});}
+      }else{nNew++;const mx=Math.max(0,...old.concat(merged).filter(x=>x.section===n.section).map(x=>x.order));merged.push({...n,order:mx+1});lines.push({k:'new',kind:'ÚJ',name:n.name_en,detail:n.pack_en});}
+    });
+    const gone=old.filter(x=>!used.has(x.id));
+    gone.forEach(x=>{lines.push({k:'gone',kind:'ELTŰNT',name:x.name_en,detail:'inaktívra állítva'});merged.push({...x,active:false});});
+    Object.keys(codes).filter(c=>codes[c]>1).forEach(c=>lines.push({k:'warn',kind:'FIGYELEM',name:'Ismétlődő kód: '+c,detail:codes[c]+' termék, a párosítás kiszerelés alapján történik'}));
+    if(fixc.n)lines.push({k:'warn',kind:'FIGYELEM',name:'Javított elírások',detail:fixc.n+' mezőben (pl. MAZZARELLA, CONSERTRATED, Naturaly)'});
+    const nImg=merged.filter(p=>p.active&&!p.imgs.length).length;
+    if(nImg)lines.push({k:'missing',kind:'KÉP',name:nImg+' aktív terméknek nincs képe',detail:'tömeges feltöltés a Termékek fülön'});
+    const st=(k,label,n,bad)=>({label,n,style:`padding:6px 14px;border-radius:999px;font-size:12px;font-weight:700;background:${bad&&n?'hsl(0 55% 30%)':'hsl(var(--muted))'};color:hsl(var(--foreground))`});
+    return{merged,lines,stats:[st(0,'Új',nNew),st(0,'Módosult',nMod),st(0,'Eltűnt',gone.length),st(0,'Árváltozás',nPrice),st(0,'Hiányzó fordítás',nMissTr,1),st(0,'Hiányzó kép',nImg,1)]};
+  }
+  applyImport=()=>{const m=this.state.imp.merged;this.setState({products:m,imp:null});this.say('Import alkalmazva');};
+  discardImport=()=>this.setState({imp:null});
+
+  renderVals(){
+    const s=this.state,hu=s.lang==='hu',st=s.settings,w=s.w,mode=s.mode;
+    const L={};Object.keys(S).forEach(k=>{L[k]=S[k][hu?0:1];});
+    const print=mode==='print';
+    const dark='--background:30 10% 10%;--background-alt:30 10% 13%;--foreground:40 20% 92%;--card:30 10% 14%;--muted:30 8% 18%;--muted-foreground:30 8% 62%;--border:30 10% 20%;--primary:90 25% 42%;--primary-dark:90 25% 34%;--olive:90 25% 36%;--sage:120 15% 45%;--warm:35 25% 35%;--stone:30 10% 40%;--olive-soft:90 15% 16%;--sage-soft:120 10% 16%;--warm-soft:35 15% 15%;--stone-soft:30 8% 16%;';
+    const light='--background:40 20% 96%;--background-alt:40 18% 90%;--foreground:30 10% 10%;--card:40 25% 99%;--muted:40 14% 90%;--muted-foreground:30 8% 36%;--border:35 14% 80%;--primary:90 28% 32%;--primary-dark:90 25% 26%;--olive:90 25% 36%;--sage:120 15% 45%;--warm:35 25% 35%;--stone:30 10% 40%;--olive-soft:90 18% 87%;--sage-soft:120 12% 87%;--warm-soft:35 25% 86%;--stone-soft:30 10% 87%;';
+    const th=mode==='print'?s.themes.print:mode==='digital'?s.themes.digital:'dark',lightDoc=th!=='dark',isC=th==='c';
+    const cvS=isC?'--foreground:37 20% 94%;--muted-foreground:37 20% 86%;--border:37 20% 94% / .28;--primary:37 20% 94%;--background:36 10% 10%;--muted:37 20% 94% / .16;--card:37 20% 94% / .08;color:hsl(var(--foreground));':'';
+    const cvars='--background:37 20% 92%;--background-alt:37 18% 88%;--foreground:36 10% 10%;--card:37 25% 96%;--muted:37 14% 86%;--muted-foreground:36 8% 30%;--border:37 12% 78%;--primary:90 22% 34%;--primary-dark:90 22% 28%;--olive:90 25% 36%;--sage:120 15% 38%;--warm:35 25% 35%;--stone:30 10% 40%;--olive-soft:90 15% 84%;--sage-soft:120 10% 84%;--warm-soft:35 18% 84%;--stone-soft:30 8% 85%;';
+    const rootStyle=(isC?cvars:lightDoc?light:dark)+`min-height:100vh;font-family:Mulish,sans-serif;font-size:16px;line-height:1.5;color:hsl(var(--foreground));background:${print?(lightDoc?'hsl(30 6% 82%)':'hsl(30 8% 5%)'):'hsl(var(--background))'};`;
+    const eyebrowBase="font-family:Mulish,sans-serif;font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;line-height:1.2";
+    const monoBase="font-family:'JetBrains Mono',monospace";
+    const hbase="font-family:'Orelega One',sans-serif;font-weight:400;letter-spacing:-.01em;line-height:1.08;margin:0";
+    const btnBase="font-family:Mulish,sans-serif;font-weight:700;font-size:13px;border-radius:999px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;text-decoration:none;";
+    const K={eyebrowBase,monoBase,eyebrow:eyebrowBase+";color:hsl(var(--primary))",mono:monoBase,
+      h2:hbase+";font-size:clamp(28px,4vw,46px)",h3:hbase+";font-size:24px",
+      priceBig:"font-family:Mulish,sans-serif;font-weight:800;font-size:20px;letter-spacing:-.005em",
+      preTag:eyebrowBase+";font-size:10px;padding:4px 10px;border-radius:999px;border:1px solid hsl(var(--border));color:hsl(var(--muted-foreground))",
+      ph:monoBase+";font-size:10px;color:hsl(var(--muted-foreground));text-align:center;padding:8px;position:relative",
+      pill:btnBase+"padding:10px 18px;border:1px solid hsl(var(--border));background:hsl(var(--card));color:hsl(var(--foreground))",
+      cta:btnBase+"padding:12px 24px;border:0;background:hsl(var(--primary));color:hsl(var(--background))",
+      ghost:btnBase+"padding:10px 18px;border:1px solid hsl(var(--border));background:transparent;color:hsl(var(--foreground))",
+      mini:"border:0;background:transparent;color:inherit;cursor:pointer;font-size:12px;padding:2px 6px;font-family:inherit",
+      inp:"color-scheme:dark;width:100%;box-sizing:border-box;background:hsl(var(--background));color:hsl(var(--foreground));border:1px solid hsl(var(--border));border-radius:10px;padding:8px 10px;font:inherit;font-size:14px",
+      cell:"width:100%;box-sizing:border-box;background:transparent;color:inherit;border:1px solid transparent;border-radius:8px;padding:6px 6px;font:inherit;font-size:12.5px",
+      label:"display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:700;color:hsl(var(--muted-foreground))",
+      panel:"background:hsl(var(--card));border:1px solid hsl(var(--border));border-radius:20px;padding:22px;display:flex;flex-direction:column;gap:16px",
+      drop:"width:110px;height:110px;border:1.5px dashed hsl(var(--muted-foreground));border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:12px;color:hsl(var(--muted-foreground));cursor:pointer;box-sizing:border-box;flex-direction:column;gap:6px;"};
+    const logoSmall=st.logoDark||'pilpel_white.png',logoPrint=st.logoLight||'pilpel_black.png',docLogo=lightDoc?logoPrint:logoSmall;
+    const logo=(u,css)=>`${css};aspect-ratio:3.2;background:url("${u}") left center/contain no-repeat;display:block;flex:none`;
+    const lg0={top:logo(logoSmall,'height:22px'),foot:logo(docLogo,'height:22px'),big:logo(docLogo,'width:70%;min-width:260px;max-width:860px'),pHead:logo(docLogo,'height:18px'),pBig:logo(docLogo,'width:62%'),prevDark:logo(logoSmall,'height:56px'),prevLight:logo(logoPrint,'height:56px')};
+    const docDark=!lightDoc,pk=(n,rev,ov)=>ov||(rev?n+'-rev.png':n+'.png');
+    const barDoc=pk('logo-bar',docDark,docDark?st.logoDark:st.logoLight),wideDoc=pk('logo-wide',docDark,docDark?st.logoDark:st.logoLight),stackDoc=pk('logo-stacked',docDark,docDark?st.logoDark:st.logoLight);
+    const topU=pk('logo-bar',true,st.logoDark),L2=(u,css,ar)=>`${css};aspect-ratio:${ar};background:url("${u}") left center/contain no-repeat;display:block;flex:none`;
+    const lg={top:L2(topU,'height:26px;transition:opacity .3s;opacity:'+((mode==='digital'&&!s.scrolled)?0:1),6),foot:L2(barDoc,'height:26px',6),big:L2(wideDoc,'width:min(480px,100%)',3.19),revWide:L2('logo-wide-rev.png','width:230px',3.19),pHead:L2(barDoc,'height:22px',6),pBig:L2(wideDoc,'width:62%',3.19),stack:L2(stackDoc,'height:150px',1.18),prevDark:L2(topU,'height:44px',6),prevLight:L2(pk('logo-bar',false,st.logoLight),'height:44px',6)};
+    K.cellNum=K.cell+';'+monoBase;K.cellSel=K.cell+';background:hsl(var(--background));color-scheme:dark';
+    const month=mlabel(st.month,hu);
+    const stripe='repeating-linear-gradient(135deg,hsl(var(--muted)) 0 8px,hsl(var(--card)) 8px 16px)';
+    const sortBy=a=>a.slice().sort((x,y)=>x.order-y.order);
+    const actv=sortBy(s.products.filter(p=>p.active));
+    const mkBox=(wd,h,r,v,vis)=>`position:relative;width:${wd};height:${h}px;flex:none;border-radius:${r}px;display:flex;align-items:center;justify-content:center;overflow:${vis?'visible':'hidden'};background:${v.hasImg?(v.cut?'transparent':'hsl(var(--muted))'):stripe};`;
+    const mk=p=>{
+      const im=p.imgs[p.main]||p.imgs[0],cut=!!(p.cutout&&im&&im.cut),src=im?(cut?im.cut:im.src):'',fp=p.focus||{x:50,y:50};
+      const v={id:p.id,hasImg:!!src,cut,img:src,code:p.code||'',
+        name:(hu?p.name_hu:p.name_en)||p.name_en||p.name_hu,pack:(hu?p.pack_hu:p.pack_en)||p.pack_en||p.pack_hu,
+        desc:(hu?p.desc_hu:p.desc_en)||p.desc_hu||p.desc_en||'',brand:p.brand||'',
+        eyebrow:[p.brand,hu?p.cat:(CATEN[p.cat]||p.cat)].filter(Boolean).join(' · '),
+        hasBadge:!!p.badge,badge:p.badge?BADGE[p.badge][hu?0:1]:'',pre:p.pre,
+        shelf:(hu?p.shelf_hu:p.shelf_en)||'–',minOrd:p.minBox?(hu?`${p.minBox} doboz (${p.perBox} db)`:`${p.minBox} box (${p.perBox} pcs)`):'–',
+        price1:`${fmt(p.price)} Ft / ${hu?'db':'pc'}`,price2:`${fmt(p.unitPrice)} Ft / ${p.unit==='l'?(hu?'l':'L'):'kg'}`,
+        phText:src?'':'termékkép · '+(p.code||p.name_en.slice(0,16)),
+        imgS:`position:absolute;inset:0;background:url("${src}") ${fp.x}% ${fp.y}%/${cut?'contain':'cover'} no-repeat;${cut?'filter:drop-shadow(0 6px 10px rgba(0,0,0,.28));':'border-radius:inherit;'}`,
+        badgeStyle:eyebrowBase+`;font-size:10px;padding:5px 11px;border-radius:999px;white-space:nowrap;${p.badge==='Prémium minőség'?'background:hsl(var(--warm));color:hsl(40 20% 94%)':p.badge==='Új'?'background:hsl(var(--foreground));color:hsl(var(--background))':'background:hsl(var(--primary));color:'+'hsl(var(--background))'}`};
+      v.hasDesc=!!v.desc;const mo=MOOD_SRC[imgKey(p)];
+      v.imgPS=mo?`position:absolute;inset:0;border-radius:20px;background:url("${mo}") 62% 50%/cover no-repeat`:v.imgS;
+      v.boxThumb=mkBox('44px',44,10,v);v.boxCard=mkBox('100%',170,20,v);v.boxHero=mkBox('100%',330,20,v,true)+'margin-top:-34px;';v.boxP=mkBox('78px',78,20,v);v.boxPrint=mkBox('100%',190,20,v);v.boxPHero=mkBox('100%',390,20,v);
+      return v;
+    };
+    const cols=w>=900?12:w>=560?6:1;
+    const pad=w>=900?48:w>=560?32:18;
+    const span={12:{S:3,M:4,L:6,XL:12},6:{S:3,M:3,L:6,XL:6},1:{S:1,M:1,L:1,XL:1}}[cols];
+    const tints=isC?['olive','warm','stone','sage']:['olive-soft','warm-soft','stone-soft','sage-soft'],solids=['olive','warm','stone'];
+    let xlN=0;
+    const hlItems=sortBy(actv.filter(p=>p.section==='hl')).map((p,i)=>{
+      const v=mk(p),xl=p.size==='XL';const t=tints[i%4];
+      v.isXL=xl;v.notXL=!xl;
+      v.box=`grid-column:span ${span[p.size]||4};background:hsl(var(--${t}));${cvS}border:1px solid hsl(var(--border));border-radius:20px;display:flex;flex-direction:column;transition:box-shadow .3s;position:relative;${xl?'margin-top:34px;':''}animation:rise .6s cubic-bezier(.22,.8,.3,1) both;animation-delay:${Math.min(i,8)*.08}s;`;
+      if(xl){const sc=solids.filter(x=>x!==t)[xlN++%2];
+        v.heroLeft=`background:hsl(var(--${t}));${cvS}border-radius:20px ${cols===12?'0 0':'20px 20px'} ${cols===12?'20px':'0 0'};padding:30px;display:flex;flex-direction:column;gap:12px;`;
+        v.heroRight=`background:hsl(var(--${sc}));border-radius:${cols===12?'0 20px 20px 0':'0 0 20px 20px'};padding:0 26px 28px;display:flex;align-items:flex-start;`;}
+      return v;});
+    const catsOf=(prods)=>{const g=[];prods.forEach(p=>{let c=g.find(x=>x.key===p.cat);if(!c){c={key:p.cat,name:hu?p.cat:(CATEN[p.cat]||p.cat),prods:[]};g.push(c);}c.prods.push(p);});return g;};
+    const wide=w>=820,compact=!wide;
+    const consCats=catsOf(sortBy(actv.filter(p=>p.section==='cons'))).map(c=>({name:c.name,hasBanner:!!ILL.cat[c.key],bannerS:ibg(ILL.cat[c.key]||'','width:100%;aspect-ratio:'+(w>=820?'21/7':'16/9')+';border-radius:20px;border:1px solid hsl(var(--border))'),
+      cards:c.prods.filter(p=>p.badge).map((p,i)=>{const v=mk(p);v.box=`background:hsl(var(--${tints[(i+1)%4]}));${cvS}border:1px solid hsl(var(--border));border-radius:20px;display:flex;flex-direction:column;transition:box-shadow .3s;`;return v;}),
+      rows:c.prods.filter(p=>!p.badge).map(p=>{const v=mk(p);v.rowS=`display:grid;grid-template-columns:${wide?'44px minmax(0,1fr) 150px 80px 130px 130px':'44px minmax(0,1fr) auto auto'};gap:14px;align-items:center;padding:10px 4px;border-bottom:1px solid hsl(var(--border));`;return v;})}))
+      .map(c=>({...c,hasCards:c.cards.length>0}));
+    const bufItems=sortBy(actv.filter(p=>p.section==='buf')).map((p,i)=>{const v=mk(p);v.box=`background:hsl(var(--${tints[i%4]}));${cvS}border:1px solid hsl(var(--border));border-radius:20px;display:flex;flex-direction:column;transition:box-shadow .3s;`;return v;});
+    const listCats=catsOf(['hl','cons','buf'].flatMap(sc=>sortBy(actv.filter(p=>p.section===sc)))).map(c=>({name:c.name,rows:c.prods.map(mk)}));
+    const tparts=t=>String(t||'').split('*').map((x,i)=>({t:x,s:i%2?'font-style:italic;color:hsl(var(--primary))':''})).filter(x=>x.t);
+    const stv=k=>{const o=s.stories[k]||{};return{id:k,hasFacts:k==='pilpel',facts:k==='pilpel'?[{n:'700+',t:hu?'prémium termék':'premium products'},{n:hu?'2021':'2021',t:hu?'óta a piacon':'on the market since'},{n:hu?'H–Szo':'Mon–Sat',t:hu?'kiszállítás Budapesten és a Balaton környékén':'delivery in Budapest and around Lake Balaton'}]:[],eyebrow:o['eyebrow_'+s.lang]||'',titleParts:tparts(o['title_'+s.lang]),text:o['text_'+s.lang]||'',quote:o['quote_'+s.lang]||'',hasQuote:!!o['quote_'+s.lang],img:o.img,hasImg:!!o.img,link:o.link,hasLink:!!o.link};};
+    const pillars=[{globe:true,title:hu?'Új termékek, új sztenderdben':'New products, a new standard',text:hu?'Gondosan válogatott gyártók a világ minden tájáról.':'Carefully selected producers from around the world.'},
+      {clock:true,title:hu?'Kevesebb felesleges munka':'Less unnecessary work',text:hu?'Konyhai munkára tervezett kiszerelések: idő és pénz.':'Pack sizes designed for kitchen work: time and money saved.'},
+      {shield:true,title:hu?'Konzisztens minőség és kivitelezés':'Consistent quality and execution',text:hu?'Közvetlenül a gyártóktól, átlátható költséggel.':'Direct from the producers, with transparent cost.'}];
+    const sub=`Pilpel Hungary · ${hu?'I. mediterrán katalógus':'Mediterranean catalogue I'} · ${month}`;
+    const tagline=hu?st.tag_hu:st.tag_en;
+    const priceNote=hu?`Az árak nettó forintban, áfa nélkül értendők, és a ${month} kiadásra érvényesek.`:`Prices are net, in HUF, excluding VAT, and valid for the ${month} edition.`;
+    const foot=`${month} · ${hu?'Nettó árak forintban, áfa nélkül':'Net prices in HUF, excl. VAT'} · ${st.orders}`;
+    const socIg='@'+String(st.instagram||'').split('/').filter(Boolean).pop(),socFb=String(st.facebook||'').replace(/^https?:\/\/(www\.)?/,'');
+    const tel=x=>'tel:'+(x.split('·')[1]||x).replace(/[^\d+]/g,'');
+    const phoneRow=(x,lang)=>{const [n,nr]=x.split('·').map(z=>z.trim());return{lang,name:n,num:nr||'',href:tel(x)};};
+    const phones=[phoneRow(st.phone_en,'In English'),phoneRow(st.phone_hu1,'Magyarul'),phoneRow(st.phone_hu2,'Magyarul')];
+    const secHead={hl:{eyebrow:hu?'Kiemelt termékek':'Featured',title:hu?'Amit *először* rendelj':'What to order *first*',sub:hu?'Olívaolaj, olívabogyó, professzionális lisztek és High Brix paradicsompüré.':'Olive oil, olives, professional flours and High Brix tomato pulp.'},
+      cons:{eyebrow:hu?'Prémium konzervek és tartós élelmiszerek':'Premium preserves and ambient foods',title:hu?'Kiszerelve a *konyhának*':'Packed for the *kitchen*',sub:''},
+      buf:{eyebrow:hu?'Collebianco farm':'Collebianco farm',title:hu?'Friss *bivalytejtermékek*':'Fresh *buffalo dairy*',sub:''},
+      list:{eyebrow:hu?'Teljes árlista':'Full price list',title:hu?'Minden termék, *egy* listában':'Every product, *one* list',sub:''},
+      contact:{eyebrow:hu?'Rendelés és kapcsolat':'Orders and contact',title:hu?'Kérj *árlistát*, rendelj':'Ask for a *price list*, order',sub:''}};
+    const head=(b,k)=>({...b,hasBanner:typeof ILL[k]==='string',bannerS:ibg(ILL[k]||'','width:100%;aspect-ratio:'+(w>=820?'21/8':'16/9')+';border-radius:20px;border:1px solid hsl(var(--border))'),hasHead:true,eyebrow:secHead[k].eyebrow,titleParts:tparts(secHead[k].title),sub:secHead[k].sub,hasSub:!!secHead[k].sub});
+    const feed=[];
+    const wrapBase=(i,extra)=>`max-width:1240px;margin:0 auto;padding:${w>=900?64:40}px ${pad}px 0;display:flex;flex-direction:column;gap:${w>=900?32:24}px;animation:rise .6s cubic-bezier(.22,.8,.3,1) both;animation-delay:${Math.min(i,4)*.08}s;${extra||''}`;
+    const pushStories=slot=>(s.place[slot]||[]).forEach((k,j)=>{if(!s.stories[k])return;const sv=stv(k),flip=feed.length%2===1;
+      feed.push({...sv,imgS:`position:absolute;inset:0;background:url("${sv.img||''}") ${STORY_POS[k]||'center'}/cover no-repeat`,isStory:true,anchor:'story-'+k,wrap:wrapBase(0),storyCols:w>=820?'1fr 1fr':'1fr',storyGap:w>=820?48:20,imgOrder:w>=820&&flip?'order:2':'',
+        imgBox:`position:relative;width:100%;height:${w>=820?380:240}px;border-radius:20px;overflow:hidden;border:1px solid hsl(var(--border));background:${sv.hasImg?'hsl(var(--muted))':stripe};display:flex;align-items:center;justify-content:center;`,phText:sv.hasImg?'':(hu?'hangulatkép · ':'mood image · ')+k});});
+    feed.push({isCover:true,anchor:'cover',wrap:wrapBase(0),coverCard:'position:relative;margin:-'+(w>=820?96:56)+'px '+(w>=820?'clamp(16px,4vw,56px)':'12px')+' 0;background:hsl(var(--card) / .95);backdrop-filter:blur(14px);border:1px solid hsl(var(--border));border-radius:20px;padding:'+(w>=820?'36px 40px':'22px')+';display:flex;gap:28px;flex-wrap:wrap;align-items:center',coverBg:ibg(ILL.cover,'width:100%;aspect-ratio:'+(w>=820?'21/9':'16/9')+';border-radius:20px;border:1px solid hsl(var(--border))'),padTop:w>=900?24:0,sub,tagline,pillars,pillCols:w>=820?'repeat(3,minmax(0,1fr))':'1fr'});pushStories('cover');
+    feed.push(head({isHl:true,anchor:'hl',wrap:wrapBase(1),items:hlItems,cols,heroCols:cols===12?'1fr 1fr':'1fr'},'hl'));pushStories('hl');
+    feed.push(head({isCons:true,anchor:'cons',wrap:wrapBase(1),cats:consCats,wide,compact},'cons'));pushStories('cons');
+    feed.push(head({isBuf:true,anchor:'buf',wrap:wrapBase(1),items:bufItems},'buf'));pushStories('buf');
+    feed.push(head({isList:true,anchor:'list',wrap:wrapBase(1),cats:listCats,wide,compact,
+      listHead:`display:grid;grid-template-columns:${wide?'90px minmax(0,1fr) 170px 120px 130px':'70px minmax(0,1fr) 110px 110px'};gap:12px;${eyebrowBase};font-size:10px;color:hsl(var(--muted-foreground));padding:6px 4px;border-bottom:1px solid hsl(var(--border))`,
+      listRow:`display:grid;grid-template-columns:${wide?'90px minmax(0,1fr) 170px 120px 130px':'70px minmax(0,1fr) 110px 110px'};gap:12px;align-items:center;padding:9px 4px;border-bottom:1px solid hsl(var(--border))`},'list'));pushStories('list');
+    feed.push(head({isContact:true,anchor:'contact',contactImg:ibg(ILL.contact,'width:100%;aspect-ratio:'+(w>=820?'21/8':'16/9')+';border-radius:20px;border:1px solid hsl(var(--border))'),wrap:wrapBase(1,'padding-bottom:64px;'),contactCols:w>=820?'1fr 1fr':'1fr',orders:st.orders,ordersHref:'mailto:'+st.orders,support:st.support,supportHref:'mailto:'+st.support,web:st.web,webHref:'https://'+st.web,phones,priceNote,shop:st.shop,foot,igHref:st.instagram,ig:socIg,fbHref:st.facebook,fb:socFb,address:st.address},'contact'));
+
+    // print pages
+    K.stripeBg='background:'+stripe;
+    const solidsP=['olive','warm','stone'];
+    const chunkW=(entries,caps)=>{const pgs=[];let cur=[],wt=0;const cap=()=>caps[Math.min(pgs.length,caps.length-1)];
+      entries.forEach(e=>{const ew=e.isHead?2.4:1;if(cur.length&&(wt+ew>cap()||(e.isHead&&wt+ew+2.2>cap()))){pgs.push(cur);cur=[];wt=0;}cur.push(e);wt+=ew;});if(cur.length)pgs.push(cur);return pgs;};
+    const rowE=p=>{const v=mk(p);v.isRow=true;v.rowS='display:grid;grid-template-columns:54px minmax(0,1fr) 112px 90px 98px;gap:8px;align-items:baseline;padding:5px 0;border-bottom:1px solid hsl(var(--border));';return v;};
+    const entriesOf=cs=>cs.filter(c=>c.prods.length).flatMap(c=>[{isHead:true,name:c.name},...c.prods.map(rowE)]);
+    const consProds=sortBy(actv.filter(p=>p.section==='cons'));
+    const consEntries=entriesOf(catsOf(consProds.filter(p=>!p.badge)));
+    const consCardsP=consProds.filter(p=>p.badge).map((p,i)=>{const v=mk(p);v.pcard='background:hsl(var(--'+tints[(i+1)%4]+'));'+cvS+'border:1px solid hsl(var(--border));border-radius:20px;padding:10px;display:flex;flex-direction:column;gap:5px';v.boxS=mkBox('100%',92,20,v);return v;});
+    const listEntries=entriesOf(catsOf(['hl','cons','buf'].flatMap(sc=>sortBy(actv.filter(p=>p.section===sc)))));
+    const pcard=(i,pd)=>'background:hsl(var(--'+tints[i%4]+'));'+cvS+'border:1px solid hsl(var(--border));border-radius:20px;padding:'+pd+'px;display:flex;flex-direction:column;gap:6px;min-height:0;overflow:hidden';
+    const hlP=sortBy(actv.filter(p=>p.section==='hl')).map((p,i)=>{const v=mk(p);v.size=p.size;v.pcard=pcard(i,16);return v;});
+    const bufP=sortBy(actv.filter(p=>p.section==='buf')).map((p,i)=>{const v=mk(p);v.pcard=pcard(i,10);v.boxS=mkBox('100%',84,20,v);return v;});
+    const banner=(num,eyebrow,title,tint,img)=>({bg:ibg(img,''),style:'margin:0 -52px;height:196px;flex:none;display:grid;grid-template-columns:1fr 1fr;background:hsl(var(--'+tint+'));'+cvS,num,eyebrow,titleParts:tparts(title)});
+    const pgs=[];
+    pgs.push({kind:'cover',isCover:true,coverBg:'position:absolute;top:0;left:0;right:0;height:500px;background:linear-gradient(to bottom,transparent 62%,hsl(var(--background)) 100%),url("'+ILL.cover+'") center/cover no-repeat',label:hu?'Címlap':'Cover',sub,tagline,coverParts:tparts(hu?'Mediterrán *katalógus*':'Mediterranean *catalogue*'),pillars:pillars.map((p,i)=>({...p,n:'0'+(i+1)}))});
+    pgs.push({kind:'about',isAbout:true,aboutBg:ibg(ILL.about,'height:400px;flex:none;margin:-16px 0 10px -52px;width:794px'),label:hu?'Rólunk':'About us',s:stv('pilpel'),ig:socIg,fb:socFb,address:st.address});
+    pgs.push({kind:'intro',isIntro:true,introBg:ibg(ILL.michael,'height:340px;flex:none;margin:-16px 0 10px -52px;width:794px'),kitchenBg:'border-radius:20px;border:1px solid hsl(var(--border));background:url("img/ill/mi-sack.png") 50% 36%/cover no-repeat',ingBg:'border-radius:20px;border:1px solid hsl(var(--border));background:url("img/ill/mi-whisk.png") 50% 28%/cover no-repeat',label:hu?'A Deli története':'The Deli story',s:stv('michael')});
+    let hb=[],hn=0,heroN=0,firstGrid=true;
+    const flush=()=>{if(hb.length){pgs.push({kind:'hl',isGrid:true,label:secHead.hl.eyebrow,items:hb,gridTitle:hu?'Kiemelt termékek':'Featured products',hasGridTitle:firstGrid});firstGrid=false;hb=[];}};
+    hlP.forEach(v=>{if(v.size==='XL'){flush();pgs.push({kind:'hl',isHero:true,label:secHead.hl.eyebrow,it:v,num:'0'+(++hn),tag:hu?'Kiemelt termék':'Featured',panel:'margin:0 0 8px;width:100%;height:540px;flex:none;box-sizing:border-box;border-radius:20px;overflow:hidden;background:hsl(var(--'+solidsP[heroN++%3]+'));display:flex;flex-direction:column;color:hsl(40 20% 94%)'});}else{hb.push(v);if(hb.length===4)flush();}});
+    flush();
+    chunkW(consEntries,[16,30]).forEach((e,i)=>pgs.push({kind:'cons',isRows:true,label:secHead.cons.eyebrow,entries:e,hasBanner:i===0,banner:i===0?banner('02',secHead.cons.eyebrow,secHead.cons.title,isC?'olive':'olive-soft',ILL.cons):null,hasCards:i===0&&consCardsP.length>0,cards:i===0?consCardsP:[],hasTitle:false}));
+    pgs.push({kind:'buf',isBuf:true,label:'Collebianco',banner:banner('03',secHead.buf.eyebrow,secHead.buf.title,isC?'warm':'warm-soft',ILL.buf),items:bufP});
+    const sup=STORY_KEYS.filter(k=>k!=='michael'&&k!=='pilpel').map(k=>{const sv=stv(k);sv.imgBox='width:100%;height:100%;min-height:150px;box-sizing:border-box;border-radius:20px;border:1px solid hsl(var(--border));display:flex;align-items:center;justify-content:center;background:'+(sv.hasImg?'url("'+sv.img+'") '+(STORY_POS[k]||'center')+'/cover':stripe);sv.phText=sv.hasImg?'':(hu?'hangulatkép · ':'mood image · ')+k;return sv;});
+    for(let i=0;i<sup.length;i+=3)pgs.push({kind:'sup',isSup:true,label:hu?'Beszállítók':'Producers',title:hu?'Honnan jön, amit rendelsz':'Where it comes from',hasTitle:i===0,items:sup.slice(i,i+3)});
+    chunkW(listEntries,[29,32]).forEach((e,i)=>pgs.push({kind:'list',isRows:true,label:secHead.list.eyebrow,entries:e,hasTitle:i===0,title:hu?'Teljes termék- és árlista':'Full product and price list',hasBanner:false,hasCards:false,cards:[]}));
+    pgs.push({kind:'contact',isContact:true,contactBg:'position:absolute;top:0;left:0;right:0;height:584px;background:linear-gradient(to bottom,rgba(20,17,15,.45),rgba(20,17,15,.9)),url("'+ILL.contact+'") center/cover no-repeat',label:secHead.contact.eyebrow,eyebrow:secHead.contact.eyebrow,titleParts:tparts(hu?'Rendelj *most*!':'Order *now*!').map((x,i)=>({...x,s:x.s+(i===0?';display:block':';display:inline')})),orders:st.orders,support:st.support,web:st.web,ig:socIg,fb:socFb,address:st.address,phones,priceNote,shopShort:st.shop.replace(/^https?:\/\//,'')});
+    const kept=pgs.filter(p=>!s.lite||['cover','list','contact'].includes(p.kind));
+    const N=kept.length,dbl=w>=1000;this._N=N;this._dbl=dbl;
+    const cur=Math.min(s.pageIdx,N-1),start=dbl?(cur===0?0:(cur%2===1?cur:cur-1)):cur;
+    const pair=dbl&&start>0&&start+1<N;
+    const pages=kept.map((p,i)=>{
+      const side=dbl&&i>0&&i%2===1?'L':'R',vis=dbl?(i===start||(start>0&&i===start+1)):i===start,fwd=s.dir==='fwd';
+      let anim='animation:fadeIn .5s both;';
+      if(dbl&&i>0){if(fwd&&side==='R')anim='transform-origin:left center;animation:flipFwd .75s cubic-bezier(.3,.7,.2,1) both;';else if(!fwd&&side==='L')anim='transform-origin:right center;animation:flipBack .75s cubic-bezier(.3,.7,.2,1) both;';}
+      const dir=side==='L'?'row':'row-reverse';
+      return{...p,n:i+1,foot,headLogo:p.isCover?'display:none':lg.pHead,
+        style:'width:794px;height:1122px;box-sizing:border-box;padding:46px 52px 34px;background:hsl(var(--background));color:hsl(var(--foreground));display:'+(vis?'flex':'none')+';flex-direction:column;position:relative;overflow:hidden;flex:none;break-after:page;box-shadow:0 24px 60px -24px rgba(0,0,0,.5);'+(vis?anim:''),
+        headStyle:'display:flex;flex-direction:'+dir+';justify-content:space-between;align-items:center;height:28px;flex:none'+(p.isCover||p.isContact?';display:none':''),
+        footStyle:'flex:none;display:flex;flex-direction:'+dir+';justify-content:space-between;align-items:flex-end;gap:14px;border-top:1px solid hsl(var(--border));padding-top:8px;'+monoBase+';font-size:9px;color:hsl(var(--muted-foreground));text-align:'+(side==='L'?'left':'right'),
+        spine:dbl&&i>0?'position:absolute;top:0;bottom:0;width:44px;pointer-events:none;'+(side==='L'?'right:0;background:linear-gradient(to left,rgba(0,0,0,.16),transparent)':'left:0;background:linear-gradient(to right,rgba(0,0,0,.16),transparent)'):'display:none'};});
+    const zoomW=dbl?(w-130)/(794*(pair?2:1)):(w-24)/794;
+    const zoom=Math.max(.3,Math.min(1,zoomW,(s.h-150)/1122));
+    const pageLabel=(pair?(start+1)+'–'+(start+2):(start+1))+' / '+N;
+    const canPrev=start>0,canNext=dbl?(start===0?N>1:start+2<N):start+1<N;
+    const navBig=(on,side)=>'position:fixed;top:50%;'+side+':14px;width:48px;height:48px;border-radius:50%;border:1px solid hsl(30 10% 28%);background:hsl(30 10% 14% / .92);color:hsl(40 20% 92%);font-size:20px;cursor:pointer;z-index:40;opacity:'+(on?1:.25);
+    const prevStyle=navBig(canPrev,'left'),nextStyle=navBig(canNext,'right');
+    const barBtn=btnBase+'padding:8px 16px;border:1px solid hsl(30 10% 28%);background:hsl(30 10% 16%);color:hsl(40 20% 92%)';
+    const barBtnOn=btnBase+'padding:8px 18px;border:0;background:hsl(90 25% 42%);color:hsl(30 10% 10%)';
+    const thStyle='display:grid;grid-template-columns:54px minmax(0,1fr) 112px 90px 98px;gap:8px;'+eyebrowBase+';font-size:8px;color:hsl(var(--muted-foreground));padding:4px 0;border-bottom:1px solid hsl(var(--primary))';
+    const themeBtns=[['dark',hu?'A · Sötét':'A · Dark'],['light',hu?'B · Világos':'B · Light'],['c',hu?'C · Katalógus':'C · Catalogue']].map(([id,label])=>({id,label,style:"border:0;cursor:pointer;font:700 12px Mulish,sans-serif;padding:7px 12px;border-radius:999px;background:"+(th===id?'hsl(40 20% 92%)':'transparent')+";color:"+(th===id?'hsl(30 10% 10%)':'hsl(40 20% 92%)')}));
+
+    // admin
+    const modes=[['digital',L.modeDigital],['print',L.modePrint],['admin',L.modeAdmin]].map(([id,label])=>({id,label,style:`border:0;cursor:pointer;font:700 13px Mulish,sans-serif;padding:7px 14px;border-radius:999px;background:${mode===id?'hsl(90 25% 42%)':'transparent'};color:${mode===id?'hsl(30 10% 10%)':'hsl(40 20% 92%)'}`}));
+    const langs=[['hu','HU'],['en','EN']].map(([id,label])=>({id,label,style:`border:0;cursor:pointer;font:700 12px 'JetBrains Mono',monospace;padding:7px 12px;border-radius:999px;background:${s.lang===id?'hsl(40 20% 92%)':'transparent'};color:${s.lang===id?'hsl(30 10% 10%)':'hsl(40 20% 92%)'}`}));
+    const chip=(on)=>`border:1px solid hsl(var(--border));cursor:pointer;font:700 13px Mulish,sans-serif;padding:8px 16px;border-radius:999px;background:${on?'hsl(var(--primary))':'hsl(var(--card))'};color:${on?'hsl(var(--background))':'hsl(var(--foreground))'}`;
+    const tabs=tabDefs.map(([id,l])=>({id,label:l[hu?0:1],style:chip(s.tab===id)}));
+    const opt=(a)=>a.map(([v,l])=>({v,l}));
+    const secOpts=opt([['',hu?'Minden szekció':'All sections'],['hl',SECLAB.hl[hu?0:1]],['cons',SECLAB.cons[hu?0:1]],['buf',SECLAB.buf[hu?0:1]]]);
+    const cats=[...new Set(s.products.map(p=>p.cat))];
+    const catOpts=opt([['',hu?'Minden kategória':'All categories'],...cats.map(c=>[c,c])]);
+    const sizeO=opt(['S','M','L','XL'].map(x=>[x,x])),badgeO=opt([['',hu?'nincs':'none'],...Object.keys(BADGE).map(k=>[k,BADGE[k][hu?0:1]])]);
+    const storyOpts=opt([['',hu?'– nincs –':'– none –'],...STORY_KEYS.map(k=>[k,k])]);
+    const CD=[['active','',44,'check'],['order','#',52,'num'],['section',hu?'Szekció':'Section',96,'sel',secOpts.slice(1)],['cat',hu?'Kategória':'Category',170,'text'],['code',hu?'Kód':'Code',100,'text'],['brand',hu?'Márka':'Brand',120,'text'],['name_hu','Név HU',230,'text'],['name_en','Név EN',230,'text'],['pack_hu','Kiszer. HU',120,'text'],['pack_en','Kiszer. EN',120,'text'],['price',hu?'Ár / db':'Price / pc',84,'num'],['unitPrice',hu?'Ár / egység':'Price / unit',92,'num'],['unit',hu?'Egys.':'Unit',72,'sel',opt([['kg','kg'],['l','l']])],['pre',hu?'Elő':'Pre',44,'check'],['minBox','Min. doboz',76,'num'],['perBox','db/doboz',76,'num'],['shelf_hu',hu?'Eltarthatóság':'Shelf life',108,'text'],['badge','Badge',140,'sel',badgeO],['size',hu?'Méret':'Size',64,'sel',sizeO],['_i',hu?'Kép':'Img',54,'info']];
+    const tcols=CD.map(c=>c[2]+'px').join(' ');
+    const colsV=CD.map(c=>({l:c[1]}));
+    K.trHead=`display:grid;grid-template-columns:${tcols};gap:8px;padding:10px;${eyebrowBase};font-size:10px;color:hsl(var(--muted-foreground));border-bottom:1px solid hsl(var(--border))`;
+    const fl=s.products.filter(p=>(!s.filt.sec||p.section===s.filt.sec)&&(!s.filt.cat||p.cat===s.filt.cat)).sort((a,b)=>(a.section===b.section?0:a.section<b.section?-1:1)||a.order-b.order);
+    const rowsV=fl.map(p=>({id:p.id,style:`display:grid;grid-template-columns:${tcols};gap:8px;align-items:center;padding:4px 10px;border-bottom:1px solid hsl(var(--border));cursor:pointer;opacity:${p.active?1:.45};background:${p.id===s.selId?'hsl(var(--muted))':'transparent'};font-size:12.5px`,
+      cells:CD.map(c=>c[3]==='info'?{isInfo:true,v:p.imgs.length+'/3',infoStyle:monoBase+`;font-size:11px;color:${p.imgs.length?'hsl(var(--muted-foreground))':'hsl(0 70% 62%)'};font-weight:700`}
+        :{f:c[0],v:p[c[0]],isText:c[3]==='text',isNum:c[3]==='num',isCheck:c[3]==='check',isSel:c[3]==='sel',opts:c[4]})}));
+    const sp=s.products.find(p=>p.id===s.selId);
+    const sel=sp?{...sp,name:sp.name_hu||sp.name_en,hasMain:!!sp.imgs.length,mainStyle:`position:absolute;inset:0;background:url("${sp.imgs[sp.main]?(sp.cutout&&sp.imgs[sp.main].cut?sp.imgs[sp.main].cut:sp.imgs[sp.main].src):''}") center/contain no-repeat;pointer-events:none`,mainSrc:sp.imgs[sp.main]?(sp.cutout&&sp.imgs[sp.main].cut?sp.imgs[sp.main].cut:sp.imgs[sp.main].src):'',
+      imgs:sp.imgs.map((im,i)=>({i,src:im.src,style:`width:84px;height:84px;background:url("${im.src}") center/cover;border-radius:12px;cursor:pointer;border:2px solid ${i===sp.main?'hsl(var(--primary))':'hsl(var(--border))'}`})),
+      focusBox:`position:relative;width:260px;height:180px;border-radius:12px;overflow:hidden;cursor:crosshair;background:${stripe};margin-top:6px`,
+      focusDot:`position:absolute;left:${sp.focus.x}%;top:${sp.focus.y}%;width:14px;height:14px;margin:-7px;border-radius:50%;background:hsl(var(--primary));border:2px solid hsl(0 0% 100%);pointer-events:none`}:{imgs:[]};
+    const layoutItems=sortBy(s.products.filter(p=>p.section==='hl'&&p.active)).map(p=>({id:p.id,name:hu?p.name_hu:p.name_en,pack:hu?p.pack_hu:p.pack_en,
+      style:`grid-column:span ${{S:3,M:4,L:6,XL:12}[p.size]||4};min-height:96px;background:hsl(var(--muted));border:1px solid hsl(var(--border));border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:6px;cursor:grab;box-sizing:border-box`,
+      sizes:['S','M','L','XL'].map(z=>({sz:z,style:`border:1px solid hsl(var(--border));border-radius:999px;cursor:pointer;font:700 11px 'JetBrains Mono',monospace;padding:3px 9px;background:${p.size===z?'hsl(var(--primary))':'transparent'};color:${p.size===z?'hsl(var(--background))':'hsl(var(--foreground))'}`}))}));
+    const slotDefs=[['cover',hu?'Címlap után':'After cover'],['hl',hu?'Kiemelt után':'After featured'],['cons',hu?'Konzervek után':'After preserves'],['buf',hu?'Bivaly után':'After buffalo'],['list',hu?'Árlista után':'After price list']];
+    const slots=slotDefs.map(([id,label])=>{const cur=s.place[id]||[];return{id,label,items:cur.map(k=>({sid:k,title:(s.stories[k]&&s.stories[k]['title_'+s.lang]||k).replace(/\*/g,'')})),
+      addOpts:opt([['',hu?'+ sztori hozzáadása':'+ add story'],...STORY_KEYS.filter(k=>!cur.includes(k)).map(k=>[k,(s.stories[k]['title_'+s.lang]||k).replace(/\*/g,'')])])};});
+    const cs=s.stories[s.selStory]||{};
+    const sf=[['eyebrow','Eyebrow',0],['title',hu?'Cím (*dőlt* = akcent)':'Title (*italic* = accent)',0],['text',hu?'Szöveg':'Text',1],['quote',hu?'Idézet Michaeltől':'Quote from Michael',1]];
+    const storyFields=sf.flatMap(([k,l,m])=>['hu','en'].map(g=>({k:`${k}_${g}`,l:`${l} ${g.toUpperCase()}`,v:cs[`${k}_${g}`]||'',multi:!!m,single:!m})));
+    const storyTabs=STORY_KEYS.map(k=>({id:k,label:k,style:chip(s.selStory===k)}));
+    const linkOpts=opt([['',hu?'– nincs –':'– none –'],['hl',SECLAB.hl[hu?0:1]],['cons',SECLAB.cons[hu?0:1]],['buf',SECLAB.buf[hu?0:1]],['list',hu?'Árlista':'Price list']]);
+    const setFields=[['month',hu?'Kiadás hónapja':'Edition month','month'],['shop',hu?'Webshop URL (Rendelj most)':'Webshop URL (Order now)','text'],['orders',hu?'Rendelés e-mail':'Orders e-mail','text'],['support',hu?'Ügyfélszolgálat e-mail':'Support e-mail','text'],['web','Web','text'],['tag_hu',hu?'Pozicionáló sor HU':'Tagline HU','text'],['tag_en',hu?'Pozicionáló sor EN':'Tagline EN','text'],['phone_en','In English (név · szám)','text'],['phone_hu1','Magyarul 1 (név · szám)','text'],['phone_hu2','Magyarul 2 (név · szám)','text'],['instagram','Instagram URL','text'],['facebook','Facebook URL','text'],['address',hu?'Cím':'Address','text']].map(([k,l,type])=>({k,l,type,v:st[k]}));
+
+    return{rootStyle,K,L,lg,modes,langs,themeBtns,hasTheme:mode!=='admin',go:this.go,setTheme:this.setTheme,barBtn,barBtnOn,prevStyle,nextStyle,thStyle,isDigital:mode==='digital',isPrint:print,isAdmin:mode==='admin',
+      digitalWrap:'padding-bottom:0',feed,logoSmall,logoPrint,
+      doPrint:this.doPrint,toggleLite:this.toggleLite,liteStyle:barBtn+(s.lite?';background:hsl(90 25% 42%);color:hsl(30 10% 10%)':''),pageCountLabel:pageLabel,
+      pgwStyle:`padding:20px 12px;zoom:${zoom};display:flex;justify-content:center;align-items:flex-start;perspective:2600px`,
+      pages,tabs,tabProducts:s.tab==='products',tabLayout:s.tab==='layout',tabStories:s.tab==='stories',tabSettings:s.tab==='settings',tabImport:s.tab==='import',tabExport:s.tab==='export',
+      filt:s.filt,secOpts,catOpts,prodCount:`${fl.length} / ${s.products.length}`,cols:colsV,rows:rowsV,hasSel:!!sp,sel,storyOpts,
+      layoutItems,slots,storyTabs,storyFields,storyLink:cs.link||'',linkOpts,setFields,
+      hasLogoDark:!!st.logoDark,hasLogoLight:!!st.logoLight,hasImp:!!s.imp,imp:s.imp||{stats:[],lines:[]},
+      toast:s.toast,hasToast:!!s.toast,
+      setLang:this.setLang,setMode:this.setMode,setTab:this.setTab,goAnchor:this.goAnchor,onCell:this.onCell,selRow:this.selRow,onFilt:this.onFilt,onBulk:this.onBulk,
+      onPickImg:this.onPickImg,onDropImg:this.onDropImg,noDef,setMain:this.setMain,delImg:this.delImg,toggleCut:this.toggleCut,setFocus:this.setFocus,
+      dragStart:this.dragStart,dropOn:this.dropOn,setSize:this.setSize,onPlace:this.onPlace,selStory:this.selStory,onStory:this.onStory,onStoryImg:this.onStoryImg,
+      onSet:this.onSet,onLogo:this.onLogo,resetLogos:this.resetLogos,onImport:this.onImport,dlTemplate:this.dlTemplate,resetAll:this.resetAll,applyImport:this.applyImport,discardImport:this.discardImport,
+      exportFull:this.exportFull,exportLite:this.exportLite,copyLink:this.copyLink};
+  }
+}
+</script>
+</body>
+</html>
