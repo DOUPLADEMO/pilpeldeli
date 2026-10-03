@@ -919,7 +919,7 @@ class Component extends DCLogic {
   toggleLite=()=>this.setState(s=>({lite:!s.lite,pageIdx:0}));
   exportFull=()=>this.setState({mode:'print',lite:false},()=>setTimeout(()=>window.print(),400));
   exportLite=()=>this.setState({mode:'print',lite:true},()=>setTimeout(()=>window.print(),400));
-  copyLink=()=>{const u=location.href.split('?')[0].split('#')[0]+'?view=digital';try{navigator.clipboard.writeText(u);}catch(e){}this.say(this.state.lang==='hu'?'Link másolva':'Link copied');};
+  copyLink=()=>{const u=location.href.split('?')[0].split('#')[0]+'?view=digital';const hu=this.state.lang==='hu';const ok=()=>this.say(hu?'Link másolva':'Link copied');const manual=()=>{window.prompt(hu?'Másold ki a linket (Ctrl+C):':'Copy the link (Ctrl+C):',u);};const fallback=()=>{try{const t=document.createElement('textarea');t.value=u;t.setAttribute('readonly','');t.style.cssText='position:fixed;top:0;left:0;opacity:0';document.body.appendChild(t);t.focus();t.select();t.setSelectionRange(0,u.length);const r=document.execCommand('copy');document.body.removeChild(t);r?ok():manual();}catch(e){manual();}};if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(u).then(ok,fallback);}else{fallback();}};
   resetAll=()=>{this.setState({products:SEED,settings:SEED_SET,stories:SEED_STORIES,place:SEED_PLACE});this.say('Kezdő adatok visszaállítva');};
   dlTemplate=()=>{
     const rows=[TCOLS.map(c=>c[1])];
